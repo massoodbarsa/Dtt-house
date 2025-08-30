@@ -11,6 +11,6 @@ export default defineConfig({
   },
   server: {
     host: "localhost",
-    port: 8080, // 👈 force API-compatible port
+    port: 8080, //force API-compatible port
   },
 });

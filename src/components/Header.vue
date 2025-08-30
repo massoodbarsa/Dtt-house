@@ -9,6 +9,14 @@
       >
         Houses
       </RouterLink>
+      <RouterLink
+        to="/about"
+        class="nav__link"
+        active-class="is-active"
+        exact-active-class="is-active"
+      >
+        About
+      </RouterLink>
     </nav>
   </header>
 </template>
