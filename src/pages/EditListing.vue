@@ -68,123 +68,133 @@ const saveHouse = () => {
 </script>
 
 <template>
-  <div class="edit-house">
-    <h1>Edit listing</h1>
+  <div class="container">
+    <div class="edit-house">
+      <h1>Edit listing</h1>
 
-    <div class="form-group">
-      <label>Street name</label>
-      <input v-model="house.location.street" />
-    </div>
-    <section class="input-double">
-      <div>
-        <label>House Number*</label>
-        <input v-model="house.location.houseNumber" />
-      </div>
-      <div>
-        <label>Addition(optional)</label>
-        <input v-model="house.location.houseNumberAddition" />
-      </div>
-    </section>
-    <div class="form-group">
-      <label>Postal code*</label>
-      <input v-model="house.location.zip" />
-    </div>
-
-    <div class="form-group">
-      <label>City*</label>
-      <input v-model="house.location.city" />
-    </div>
-
-    <!-- Image upload -->
-    <div class="form-group">
-      <p>Upload picture (PNG or JPG)*</p>
-      <span style="position: relative">
-        <img
-          :src="house.image"
-          alt="House"
-          class="house-image"
-          style="width: 200px"
-        />
-
-        <img
-          v-if="house.image"
-          src="/ic_clear_white@3x.png"
-          alt="House"
-          style="
-            width: 30px;
-            position: absolute;
-            right: -10px;
-            top: -10px;
-            cursor: pointer;
-          "
-          @click="removeImage"
-        />
-      </span>
-      <input type="file" @change="handleImageUpload" />
-    </div>
-
-    <div class="form-group">
-      <label>Price* </label>
-      <input type="number" v-model="house.price" />
-    </div>
-
-    <section class="input-double">
       <div class="form-group">
-        <label>Size*</label>
-        <input type="number" v-model="house.size" />
+        <label>Street name</label>
+        <input v-model="house.location.street" />
       </div>
+      <section class="input-double">
+        <div>
+          <label>House Number*</label>
+          <input v-model="house.location.houseNumber" />
+        </div>
+        <div>
+          <label>Addition(optional)</label>
+          <input v-model="house.location.houseNumberAddition" />
+        </div>
+      </section>
       <div class="form-group">
-        <label> Garage*</label>
-        <select
-          v-model="house.hasGarage"
-          style="
-            width: 200px;
-            height: 45px;
-            border: none;
-            padding: 6px;
-            margin: 10px;
-          "
-        >
-          <option :value="true">Yes</option>
-          <option :value="false">No</option>
-        </select>
-      </div>
-    </section>
-
-    <section class="input-double">
-      <div class="form-group">
-        <label>Bedrooms*</label>
-        <input type="number" v-model="house.rooms.bedrooms" />
+        <label>Postal code*</label>
+        <input v-model="house.location.zip" />
       </div>
 
       <div class="form-group">
-        <label>Bathrooms*</label>
-        <input type="number" v-model="house.rooms.bathrooms" />
+        <label>City*</label>
+        <input v-model="house.location.city" />
       </div>
-    </section>
 
-    <div class="form-group">
-      <label>Construction date*</label>
-      <input type="number" v-model="house.constructionYear" />
+      <!-- Image upload -->
+      <div class="form-group">
+        <p>Upload picture (PNG or JPG)*</p>
+        <span style="position: relative">
+          <img
+            :src="house.image"
+            alt="House"
+            class="house-image"
+            style="width: 200px"
+          />
+
+          <img
+            v-if="house.image"
+            src="/ic_clear_white@3x.png"
+            alt="House"
+            style="
+              width: 30px;
+              position: absolute;
+              right: -10px;
+              top: -10px;
+              cursor: pointer;
+            "
+            @click="removeImage"
+          />
+        </span>
+        <input type="file" @change="handleImageUpload" />
+      </div>
+
+      <div class="form-group">
+        <label>Price* </label>
+        <input type="number" v-model="house.price" />
+      </div>
+
+      <section class="input-double">
+        <div class="form-group">
+          <label>Size*</label>
+          <input type="number" v-model="house.size" />
+        </div>
+        <div class="form-group">
+          <label> Garage*</label>
+          <select
+            v-model="house.hasGarage"
+            style="
+              width: 200px;
+              height: 45px;
+              border: none;
+              padding: 6px;
+              margin: 10px;
+            "
+          >
+            <option :value="true">Yes</option>
+            <option :value="false">No</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="input-double">
+        <div class="form-group">
+          <label>Bedrooms*</label>
+          <input type="number" v-model="house.rooms.bedrooms" />
+        </div>
+
+        <div class="form-group">
+          <label>Bathrooms*</label>
+          <input type="number" v-model="house.rooms.bathrooms" />
+        </div>
+      </section>
+
+      <div class="form-group">
+        <label>Construction date*</label>
+        <input type="number" v-model="house.constructionYear" />
+      </div>
+
+      <div class="form-group">
+        <label>Description*</label>
+        <textarea v-model="house.description"></textarea>
+      </div>
+
+      <button class="btn-save" @click="saveHouse">SAVE</button>
     </div>
-
-    <div class="form-group">
-      <label>Description*</label>
-      <textarea v-model="house.description"></textarea>
-    </div>
-
-    <button class="btn-save" @click="saveHouse">SAVE</button>
   </div>
 </template>
 
 <style scoped>
+.container {
+  width: 100%;
+  padding: 30px 0;
+  background-image: url("/img_background@3x.png");
+  background-size: 66.66% 100%; /* 2/3 width, full height */
+  background-position: right center; /* align to right */
+  background-repeat: no-repeat;
+}
 .edit-house {
   max-width: 400px;
   padding-left: 15%;
   padding-right: 15%;
   display: flex;
   flex-direction: column;
-  /* justify-content: flex-start; */
+
   align-items: flex-start;
   gap: 15px;
 }

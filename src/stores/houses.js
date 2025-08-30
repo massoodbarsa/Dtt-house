@@ -41,32 +41,41 @@ export const useHousesStore = defineStore("houses", {
     },
 
     async editHouse(updatedHouse) {
-      console.log(updatedHouse);
-
       const index = this.items.findIndex((h) => h.id === updatedHouse.id);
 
-      // 🔹 optimistic update
-      this.items[index] = { ...this.items[index], ...updatedHouse };
+      if (index !== -1) {
+        // Optimistic update
+        this.items[index] = { ...this.items[index], ...updatedHouse };
+      }
 
-      console.log(this.items);
+      // Prepare form data as API expects
+      const body = new URLSearchParams({
+        price: updatedHouse.price || 0,
+        bedrooms: updatedHouse.rooms?.bedrooms || 0,
+        bathrooms: updatedHouse.rooms?.bathrooms || 0,
+        size: updatedHouse.size || 0,
+
+        zip: updatedHouse.location?.zip || "",
+        city: updatedHouse.location?.city || "",
+
+        description: updatedHouse.description || "",
+      });
 
       try {
-        // 🔹 send update to API
         const data = await server(`/houses/${updatedHouse.id}`, {
-          method: "POST",
-          body: JSON.stringify(updatedHouse),
+          method: "POST", // API uses POST for edit
+          body: body, // pass URLSearchParams directly
         });
 
-        // update with response from API
-        this.items[index] = data;
+        // Update local state with response from API
+        if (index !== -1) this.items[index] = data;
 
         return data;
-      } catch (e) {
-        console.error("Failed to update house:", e);
-        throw e;
+      } catch (err) {
+        console.error("Failed to update house:", err);
+        throw err;
       }
     },
-
     async uploadImage(houseId, file) {
       const formData = new FormData();
       formData.append("image", file);
@@ -75,7 +84,6 @@ export const useHousesStore = defineStore("houses", {
       const data = await server(`/houses/${houseId}/upload`, {
         method: "POST",
         body: formData,
-        // ⚠️ do NOT set Content-Type; server() will handle headers
       });
 
       // Update local state
