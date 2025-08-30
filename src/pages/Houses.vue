@@ -75,59 +75,71 @@ onMounted(() => {
     <p v-if="store.isLoading">Loading...</p>
 
     <div v-else>
-      <div v-for="house in filteredHouses" :key="house.id" class="house-list">
+      <div
+        v-for="house in filteredHouses"
+        :key="house.id"
+        class="house-list-container"
+      >
         <!-- {{ house }} -->
 
-        <section>
-          <img
-            :src="house.image"
-            alt="search"
-            width="180"
-            height="180"
-            style="border-radius: 5px"
-          />
-        </section>
-        <section class="house-item">
-          <h2>
-            {{ house.location.street }} {{ house.location.houseNumber }}
-            {{ house.location.houseNumberAddition }}
-          </h2>
-          <p>€ {{ house.price }}</p>
-          <p style="color: var(--color-tertiary)">
-            {{ house.location.zip }} {{ house.location.city }}
-          </p>
-          <section class="house-options" style="gap: 20px">
-            <span class="house-options">
-              <img
-                src="/ic_bed@3x.png"
-                alt="search"
-                width="25"
-                height="25"
-                style="border-radius: 5px"
-              />
-              <p>{{ house.rooms.bedrooms }}</p></span
-            >
-            <span class="house-options">
-              <img
-                src="/ic_bath@3x.png"
-                alt="search"
-                width="25"
-                height="25"
-                style="border-radius: 5px"
-              />
-              <p>{{ house.rooms.bathrooms }}</p></span
-            >
-            <span class="house-options">
-              <img
-                src="/ic_size@3x.png"
-                alt="search"
-                width="25"
-                height="25"
-                style="border-radius: 5px"
-              />
-              <p>{{ house.size }}</p></span
-            >
+        <div class="house-list">
+          <section>
+            <img
+              :src="house.image"
+              alt="search"
+              width="180"
+              height="180"
+              style="border-radius: 5px"
+            />
           </section>
+          <section class="house-item">
+            <h2>
+              {{ house.location.street }} {{ house.location.houseNumber }}
+              {{ house.location.houseNumberAddition }}
+            </h2>
+            <p>€ {{ house.price }}</p>
+            <p style="color: var(--color-tertiary)">
+              {{ house.location.zip }} {{ house.location.city }}
+            </p>
+            <section class="house-options" style="gap: 20px">
+              <span class="house-options">
+                <img
+                  src="/ic_bed@3x.png"
+                  alt="search"
+                  width="25"
+                  height="25"
+                  style="border-radius: 5px"
+                />
+                <p>{{ house.rooms.bedrooms }}</p></span
+              >
+              <span class="house-options">
+                <img
+                  src="/ic_bath@3x.png"
+                  alt="search"
+                  width="25"
+                  height="25"
+                  style="border-radius: 5px"
+                />
+                <p>{{ house.rooms.bathrooms }}</p></span
+              >
+              <span class="house-options">
+                <img
+                  src="/ic_size@3x.png"
+                  alt="search"
+                  width="25"
+                  height="25"
+                  style="border-radius: 5px"
+                />
+                <p>{{ house.size }}</p></span
+              >
+            </section>
+          </section>
+        </div>
+        <section
+          style="align-self: flex-start; margin: 40px; gap: 20px; display: flex"
+        >
+          <img src="/ic_edit@3x.png" alt="search" width="18" />
+          <img src="/ic_delete@3x.png" alt="search" width="18" />
         </section>
       </div>
     </div>
@@ -186,6 +198,17 @@ onMounted(() => {
   transition: color 0.2s ease;
 }
 
+.house-list-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  background-color: var(--bg-2);
+  padding: 5px 20px;
+  border-radius: 5px;
+}
 .house-list {
   display: flex;
   align-items: center;
