@@ -1,0 +1,60 @@
+/* variables.scss */
+
+/* ------COLORS ------*/
+:root {
+  /* Primary */
+  --color-primary: #eb5440;
+  --color-primary-rgb: 235, 84, 64;
+
+  /* Text colors */
+  --color-text-primary: #000000;
+  --color-text-secondary: #4a4b4c;
+  --color-text-tertiary: #e8e8e8;
+  --color-text-tertiary-alt: #c3c3c3;
+
+  /* Backgrounds */
+  --bg-1: #f6f6f6;
+  --bg-2: #ffffff;
+
+  /* Hyperlink */
+  --color-hyperlink: #067bc2;
+}
+
+/* ------TYPOGRAPHY ------*/
+/* Font families */
+:root {
+  --font-primary: "Montserrat", sans-serif;
+  --font-secondary: "Open Sans", sans-serif;
+}
+
+/* Font weights */
+:root {
+  --fw-bold: 700;
+  --fw-semibold: 600;
+  --fw-medium: 500;
+  --fw-regular: 400;
+}
+
+/* Font sizes (desktop / mobile ) */
+:root {
+  /* Montserrat Bold */
+  --h1-desktop: 32px;
+  --h1-mobile: 18px;
+  --h2-desktop: 22px;
+  --h2-mobile: 14px;
+  --menu-desktop: 18px;
+  --button-desktop: 18px;
+  --button-mobile: 12px;
+
+  /* Montserrat Medium Italic */
+  --error-desktop: 14px;
+  --error-mobile: 12px;
+
+  /* Open Sans */
+  --listing-desktop: 16px;
+  --listing-mobile: 12px;
+  --body-desktop: 18px;
+  --body-mobile: 12px;
+  --input-desktop: 14px;
+  --input-mobile: 12px;
+}

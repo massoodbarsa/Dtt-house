@@ -1,11 +1,14 @@
+@import "./assets/styles/variables.css";
+
+/* ---------------- ROOT ---------------- */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-primary); /* Default body font */
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: var(--fw-regular);
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--color-text-primary);
+  background-color: var(--bg-1);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,51 +16,75 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ---------------- LINKS ---------------- */
 a {
-  font-weight: 500;
-  color: #646cff;
+  font-weight: var(--fw-semibold);
+  color: var(--color-hyperlink);
   text-decoration: inherit;
 }
+
 a:hover {
-  color: #535bf2;
+  color: #535bf2; /* Optional: can define a variable if needed */
 }
 
+/* ---------------- BODY ---------------- */
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--bg-2);
+  color: var(--color-text-primary);
 }
 
+/* ---------------- HEADINGS ---------------- */
 h1 {
-  font-size: 3.2em;
+  font-family: var(--font-primary);
+  font-weight: var(--fw-bold);
+  font-size: var(--h1-desktop);
   line-height: 1.1;
 }
 
+h2 {
+  font-family: var(--font-primary);
+  font-weight: var(--fw-bold);
+  font-size: var(--h2-desktop);
+}
+
+/* ---------------- BUTTONS ---------------- */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  font-size: var(--button-desktop);
+  font-weight: var(--fw-semibold);
+  font-family: var(--font-primary);
+  background-color: var(--color-primary);
+  color: var(--color-text-tertiary);
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
-  border-color: #646cff;
+  border-color: var(--color-hyperlink);
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* ---------------- CARD ---------------- */
 .card {
   padding: 2em;
+  background-color: var(--bg-2);
+  color: var(--color-text-primary);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(var(--color-primary-rgb), 0.1);
 }
 
+/* ---------------- APP CONTAINER ---------------- */
 #app {
   max-width: 1280px;
   margin: 0 auto;
@@ -65,15 +92,31 @@ button:focus-visible {
   text-align: center;
 }
 
+/* ---------------- MEDIA QUERIES ---------------- */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--color-text-primary);
+    background-color: var(--bg-2);
   }
+
   a:hover {
-    color: #747bff;
+    color: var(--color-hyperlink);
+  }
+
+  button {
+    background-color: var(--color-primary);
+  }
+}
+
+/* ---------------- RESPONSIVE FONTS ---------------- */
+@media (max-width: 768px) {
+  h1 {
+    font-size: var(--h1-mobile);
+  }
+  h2 {
+    font-size: var(--h2-mobile);
   }
   button {
-    background-color: #f9f9f9;
+    font-size: var(--button-mobile);
   }
 }
