@@ -6,11 +6,15 @@
   --color-primary: #eb5440;
   --color-primary-rgb: 235, 84, 64;
 
+  --color-secondary: #4a4b4c;
+  --color-secondary-rgb: 74, 75, 76;
+
+  --color-tertiary: #c3c3c3;
+  --color-tertiary-rgb: 195, 195, 195;
+
   /* Text colors */
   --color-text-primary: #000000;
   --color-text-secondary: #4a4b4c;
-  --color-text-tertiary: #e8e8e8;
-  --color-text-tertiary-alt: #c3c3c3;
 
   /* Backgrounds */
   --bg-1: #f6f6f6;
