@@ -35,8 +35,8 @@
   background: var(--bg-2);
   border-bottom: 1px solid #eee;
   z-index: 10;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 15%;
+  padding-right: 15%;
   padding-top: 20px;
   padding-bottom: 20px;
   color: var(--color-text-secondary);

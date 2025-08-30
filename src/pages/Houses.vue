@@ -1,13 +1,12 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
-
+import { useRouter } from "vue-router";
 import Modal from "@/components/Modal.vue";
 
 const store = useHousesStore();
 const searchQuery = ref("");
-
-console.log(store);
+const router = useRouter();
 
 // Modal state
 const showModal = ref(false);
@@ -28,7 +27,7 @@ onMounted(() => {
 });
 
 const editHouse = (id) => {
-  console.log("Edit house", id);
+  router.push(`/edit-listing/${id}`);
 };
 
 const deleteHouse = (house) => {
@@ -196,8 +195,8 @@ const cancelDelete = () => {
 
 <style scoped>
 .home {
-  padding-left: 10%;
-  padding-right: 10%;
+  padding-left: 15%;
+  padding-right: 15%;
   padding-top: 20px;
   padding-bottom: 20px;
 }
