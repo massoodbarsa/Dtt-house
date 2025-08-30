@@ -2,8 +2,14 @@
 import { ref, computed, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
 
+import Modal from "@/components/Modal.vue";
+
 const store = useHousesStore();
 const searchQuery = ref("");
+
+// Modal state
+const showModal = ref(false);
+const houseToDelete = ref(null);
 
 const clearSearch = () => {
   searchQuery.value = "";
@@ -18,6 +24,29 @@ const filteredHouses = computed(() =>
 onMounted(() => {
   store.fetchAll();
 });
+
+const editHouse = (id) => {
+  console.log("Edit house", id);
+};
+
+const deleteHouse = (house) => {
+  houseToDelete.value = house;
+  showModal.value = true;
+};
+
+const confirmDelete = () => {
+  if (houseToDelete.value) {
+    console.log("Confirmed delete:", houseToDelete.value.id);
+    // call store.deleteHouse(houseToDelete.value.id)
+    houseToDelete.value = null;
+    showModal.value = false;
+  }
+};
+
+const cancelDelete = () => {
+  houseToDelete.value = null;
+  showModal.value = false;
+};
 </script>
 
 <template>
@@ -138,11 +167,29 @@ onMounted(() => {
         <section
           style="align-self: flex-start; margin: 40px; gap: 20px; display: flex"
         >
-          <img src="/ic_edit@3x.png" alt="search" width="18" />
-          <img src="/ic_delete@3x.png" alt="search" width="18" />
+          <img
+            src="/ic_edit@3x.png"
+            alt="edit"
+            width="18"
+            @click="editHouse(house.id)"
+          />
+          <img
+            src="/ic_delete@3x.png"
+            alt="delete"
+            width="18"
+            @click="deleteHouse(house)"
+          />
         </section>
       </div>
     </div>
+
+    <Modal
+      :show="showModal"
+      title="Delete House"
+      message="Are you sure you want to delete this house?"
+      @close="cancelDelete"
+      @confirm="confirmDelete"
+    />
   </section>
 </template>
 
