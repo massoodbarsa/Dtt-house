@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
 
 const store = useHousesStore();
@@ -8,6 +8,12 @@ const searchQuery = ref("");
 const clearSearch = () => {
   searchQuery.value = "";
 };
+
+const filteredHouses = computed(() =>
+  store.items.filter((house) =>
+    house.location.city.toLowerCase().includes(searchQuery.value.toLowerCase())
+  )
+);
 
 onMounted(() => {
   store.fetchAll();
@@ -69,7 +75,7 @@ onMounted(() => {
     <p v-if="store.isLoading">Loading...</p>
 
     <div v-else>
-      <div v-for="house in store.items" :key="house.id" class="house-list">
+      <div v-for="house in filteredHouses" :key="house.id" class="house-list">
         <!-- {{ house }} -->
 
         <section>
