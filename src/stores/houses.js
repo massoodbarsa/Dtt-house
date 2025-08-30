@@ -41,38 +41,50 @@ export const useHousesStore = defineStore("houses", {
     },
 
     async editHouse(updatedHouse) {
-      const body = {
-        price: updatedHouse.price,
-        bedrooms: updatedHouse.bedrooms,
-        bathrooms: updatedHouse.bathrooms,
-        size: updatedHouse.size,
-        streetName: updatedHouse.streetName,
-        houseNumber: updatedHouse.houseNumber,
-        numberAddition: updatedHouse.numberAddition ?? "",
-        zip: updatedHouse.zip,
-        city: updatedHouse.city,
-        constructionYear: updatedHouse.constructionYear,
-        hasGarage: updatedHouse.hasGarage,
-        description: updatedHouse.description ?? "",
-      };
+      console.log(updatedHouse);
+
+      const index = this.items.findIndex((h) => h.id === updatedHouse.id);
+
+      // 🔹 optimistic update
+      this.items[index] = { ...this.items[index], ...updatedHouse };
+
+      console.log(this.items);
 
       try {
+        // 🔹 send update to API
         const data = await server(`/houses/${updatedHouse.id}`, {
-          method: "POST", // or "POST" if your API requires
-          body,
+          method: "POST",
+          body: JSON.stringify(updatedHouse),
         });
 
-        const index = this.items.findIndex((h) => h.id === updatedHouse.id);
-        if (index !== -1) {
-          this.items[index] = data;
-        }
+        // update with response from API
+        this.items[index] = data;
 
         return data;
       } catch (e) {
         console.error("Failed to update house:", e);
-        this.error = e.message;
         throw e;
       }
+    },
+
+    async uploadImage(houseId, file) {
+      const formData = new FormData();
+      formData.append("image", file);
+
+      // Use server helper
+      const data = await server(`/houses/${houseId}/upload`, {
+        method: "POST",
+        body: formData,
+        // ⚠️ do NOT set Content-Type; server() will handle headers
+      });
+
+      // Update local state
+      const index = this.items.findIndex((h) => h.id === houseId);
+      if (index !== -1) {
+        this.items[index] = { ...this.items[index], ...data };
+      }
+
+      return data;
     },
   },
 });

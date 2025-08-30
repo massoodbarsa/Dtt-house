@@ -25,7 +25,6 @@ const house = reactive({
   },
   constructionYear: 0,
   hasGarage: false,
-  madeByMe: false,
 });
 
 const newImageFile = ref(null);
@@ -37,11 +36,29 @@ onMounted(() => {
 });
 
 // Handle image selection
-const handleImageUpload = (e) => {
-  if (e.target.files && e.target.files[0]) {
-    newImageFile.value = e.target.files[0];
-    house.image = URL.createObjectURL(newImageFile.value); // preview
+const handleImageUpload = async (e) => {
+  if (!e.target.files || !e.target.files[0]) return;
+
+  const file = e.target.files[0];
+  newImageFile.value = file;
+
+  // Show preview
+  house.image = URL.createObjectURL(file);
+  try {
+    const data = await store.uploadImage(houseId, file);
+    console.log("Image uploaded:", data);
+
+    if (data.image) {
+      house.image = data.image;
+    }
+  } catch (err) {
+    console.error("Image upload failed:", err);
   }
+};
+
+const removeImage = () => {
+  house.image = ""; // Clear preview
+  newImageFile.value = null; // Clear selected file
 };
 
 // Save changes
@@ -54,7 +71,6 @@ const saveHouse = () => {
   <div class="edit-house">
     <h1>Edit listing</h1>
 
-    <h3>Location</h3>
     <div class="form-group">
       <label>Street name</label>
       <input v-model="house.location.street" />
@@ -91,9 +107,17 @@ const saveHouse = () => {
         />
 
         <img
+          v-if="house.image"
           src="/ic_clear_white@3x.png"
           alt="House"
-          style="width: 30px; position: absolute; right: -10px; top: -10px"
+          style="
+            width: 30px;
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            cursor: pointer;
+          "
+          @click="removeImage"
         />
       </span>
       <input type="file" @change="handleImageUpload" />
