@@ -1,8 +1,13 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
 
 const store = useHousesStore();
+const searchQuery = ref("");
+
+const clearSearch = () => {
+  searchQuery.value = "";
+};
 
 onMounted(() => {
   store.fetchAll();
@@ -17,20 +22,43 @@ onMounted(() => {
         <span style="font-size: larger; margin-right: 5px">+</span>CREATE NEW
       </button>
     </div>
+
     <div class="row">
       <div class="search-wrapper">
         <span class="search-icon">
-          <img src="/ic_search@3x.png" alt="Logo" width="20px"
-        /></span>
-        <input type="text" class="search" placeholder="Search for a house" />
+          <img src="/ic_search@3x.png" alt="search" width="18" />
+        </span>
+
+        <input
+          v-model="searchQuery"
+          type="text"
+          class="search"
+          placeholder="Search for a house"
+        />
+
+        <span v-if="searchQuery" class="clear-icon" @click="clearSearch">
+          <img src="/ic_clear_white@3x.png" alt="search" width="18" />
+        </span>
       </div>
+
       <section>
-        <button class="btn" style="border-radius: 5px 0 0 5px">Price</button>
+        <button
+          class="btn"
+          style="
+            border-radius: 5px 0 0 5px;
+            padding-left: 50px;
+            padding-right: 50px;
+          "
+        >
+          Price
+        </button>
         <button
           class="btn"
           style="
             border-radius: 0 5px 5px 0;
             background-color: var(--color-tertiary);
+            padding-left: 50px;
+            padding-right: 50px;
           "
         >
           Size
@@ -40,11 +68,63 @@ onMounted(() => {
 
     <p v-if="store.isLoading">Loading...</p>
 
-    <ul v-else>
-      <li v-for="house in store.items" :key="house.id">
-        {{ house.address }}, {{ house.city }} – €{{ house.price }}
-      </li>
-    </ul>
+    <div v-else>
+      <div v-for="house in store.items" :key="house.id" class="house-list">
+        <!-- {{ house }} -->
+
+        <section>
+          <img
+            :src="house.image"
+            alt="search"
+            width="180"
+            height="180"
+            style="border-radius: 5px"
+          />
+        </section>
+        <section class="house-item">
+          <h2>
+            {{ house.location.street }} {{ house.location.houseNumber }}
+            {{ house.location.houseNumberAddition }}
+          </h2>
+          <p>€ {{ house.price }}</p>
+          <p style="color: var(--color-tertiary)">
+            {{ house.location.zip }} {{ house.location.city }}
+          </p>
+          <section class="house-options" style="gap: 20px">
+            <span class="house-options">
+              <img
+                src="/ic_bed@3x.png"
+                alt="search"
+                width="25"
+                height="25"
+                style="border-radius: 5px"
+              />
+              <p>{{ house.rooms.bedrooms }}</p></span
+            >
+            <span class="house-options">
+              <img
+                src="/ic_bath@3x.png"
+                alt="search"
+                width="25"
+                height="25"
+                style="border-radius: 5px"
+              />
+              <p>{{ house.rooms.bathrooms }}</p></span
+            >
+            <span class="house-options">
+              <img
+                src="/ic_size@3x.png"
+                alt="search"
+                width="25"
+                height="25"
+                style="border-radius: 5px"
+              />
+              <p>{{ house.size }}</p></span
+            >
+          </section>
+        </section>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -59,15 +139,17 @@ onMounted(() => {
 .row {
   display: flex;
   justify-content: space-between;
-  justify-items: center;
+  align-items: center;
   color: var(--color-text-primary);
   margin-top: 10px;
 }
 
 .btn {
-  font-size: --button-desktop;
+  font-size: var(--button-desktop);
   height: 50px;
+  cursor: pointer;
 }
+
 .search-wrapper {
   position: relative;
   width: 250px;
@@ -78,20 +160,48 @@ onMounted(() => {
   background-color: var(--color-tertiary);
   border: none;
   border-radius: 5px;
-  padding: 15px 15px 15px 35px; /* space for icon */
+  padding: 12px 35px 12px 35px; /* space for icons */
   font-size: 14px;
   outline: none;
-  display: flex;
-  align-items: center;
 }
 
 .search-icon {
   position: absolute;
   left: 10px;
-  top: 25px;
-  transform: translateY(-50%);
+  top: 10px;
   pointer-events: none;
-  font-size: 16px;
-  color: #555;
+}
+
+.clear-icon {
+  position: absolute;
+  right: -40px;
+  top: 13px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.house-list {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  background-color: var(--bg-2);
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+
+.house-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+
+.house-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text-secondary);
 }
 </style>
