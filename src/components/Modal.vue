@@ -41,7 +41,7 @@ const confirmAction = () => emit("confirm");
 
 .modal-container {
   background-color: white;
-  padding: 30px 150px;
+  padding: 40px 150px;
   border-radius: 8px;
   width: 400px;
   text-align: center;
@@ -49,7 +49,7 @@ const confirmAction = () => emit("confirm");
 }
 
 .modal-actions {
-  margin-top: 80px;
+  margin-top: 70px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

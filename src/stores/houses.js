@@ -23,5 +23,21 @@ export const useHousesStore = defineStore("houses", {
         this.isLoading = false;
       }
     },
+
+    async deleteHouse(id) {
+      console.log(id);
+      /*Not autorized */
+      // try {
+      //   await server(`/houses/${id}`, { method: "DELETE" });
+      //   this.items = this.items.filter((h) => h.id !== id); // update local state
+      //   console.log(`House ${id} deleted`);
+      // } catch (e) {
+      //   console.error("Delete error:", e);
+      //   this.error = e.message;
+      // }
+
+      this.items = this.items.filter((h) => h.id !== id);
+      console.log(`House ${id} removed from store`);
+    },
   },
 });

@@ -7,6 +7,8 @@ import Modal from "@/components/Modal.vue";
 const store = useHousesStore();
 const searchQuery = ref("");
 
+console.log(store);
+
 // Modal state
 const showModal = ref(false);
 const houseToDelete = ref(null);
@@ -34,10 +36,9 @@ const deleteHouse = (house) => {
   showModal.value = true;
 };
 
-const confirmDelete = () => {
+const confirmDelete = async () => {
   if (houseToDelete.value) {
-    console.log("Confirmed delete:", houseToDelete.value.id);
-    // call store.deleteHouse(houseToDelete.value.id)
+    await store.deleteHouse(houseToDelete.value.id); // delete from API
     houseToDelete.value = null;
     showModal.value = false;
   }
