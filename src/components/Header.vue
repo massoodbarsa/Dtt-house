@@ -39,7 +39,7 @@
   padding-right: 10%;
   padding-top: 20px;
   padding-bottom: 20px;
-  color: var(--color-tertiary);
+  color: var(--color-text-secondary);
 }
 
 .nav {
@@ -63,6 +63,6 @@
 
 .nav__link.is-active {
   font-weight: 600;
-  color: var(--color-secondary);
+  color: var(--color-text-primary);
 }
 </style>
