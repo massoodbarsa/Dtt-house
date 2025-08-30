@@ -70,6 +70,16 @@ const saveHouse = () => {
 <template>
   <div class="container">
     <div class="edit-house">
+      <section style="display: flex; align-items: center; gap: 20px">
+        <img
+          src="/ic_back_grey@3x.png"
+          alt="House"
+          class="house-image"
+          style="width: 30px; height: 30px; padding-top: 10px"
+        />
+
+        <h3>Back to detail page</h3>
+      </section>
       <h1>Edit listing</h1>
 
       <div class="form-group">
