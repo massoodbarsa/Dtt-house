@@ -1,6 +1,10 @@
 <template>
   <header class="header">
     <nav class="nav">
+      <RouterLink to="/" class="nav__logo">
+        <img src="/img_logo_dtt@3x.png" alt="Logo" width="120px" />
+      </RouterLink>
+
       <RouterLink
         to="/"
         class="nav__link"
@@ -28,24 +32,29 @@
 .header {
   position: sticky;
   top: 0;
-  background: #fff;
+  background: var(--bg-2);
   border-bottom: 1px solid #eee;
   z-index: 10;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: var(--color-tertiary);
 }
 
 .nav {
-  max-width: 1100px;
   margin: 0 auto;
-  padding: 12px;
   display: flex;
-  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 40px;
 }
 
 .nav__link {
   text-decoration: none;
-  color: #333;
+  color: var(--color-tertiary);
   padding: 6px 8px;
-  transition: color 0.2s, border-color 0.2s;
+  /* transition: color 0.2s, border-color 0.2s; */
 }
 
 .nav__link:hover {
@@ -53,7 +62,7 @@
 }
 
 .nav__link.is-active {
-  border-bottom: 2px solid #000;
   font-weight: 600;
+  color: var(--color-secondary);
 }
 </style>

@@ -87,9 +87,7 @@ button:focus-visible {
 /* ---------------- APP CONTAINER ---------------- */
 #app {
   width: 100%;
-  /* max-width: 1280px; */
-  padding-left: 10%; /* horizontal padding */
-  padding-right: 10%;
+
   margin: 0 auto;
   text-align: center;
   box-sizing: border-box; /* ensure padding is included in width */
