@@ -60,6 +60,7 @@ const confirmDelete = async () => {
     await store.deleteHouse(houseToDelete.value.id); // delete from API
     houseToDelete.value = null;
     showModal.value = false;
+    router.push(`/`);
   }
 };
 
