@@ -58,7 +58,7 @@ const saveHouse = (houseData) => {
       <img
         src="/ic_back_grey@3x.png"
         alt="Back"
-        style="width: 30px; height: 30px; padding-top: 10px"
+        style="width: 30px; height: 30px; padding-top: 1px"
       />
       <h3>Back to detail page</h3>
     </section>

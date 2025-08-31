@@ -51,6 +51,14 @@ const saveHouse = async (houseData, imageFile) => {
 </script>
 
 <template>
+  <section style="display: flex; align-items: center; gap: 20px">
+    <img
+      src="/ic_back_grey@3x.png"
+      alt="Back"
+      style="width: 30px; height: 30px; padding-top: 1px"
+    />
+    <h3>Back to review page</h3>
+  </section>
   <div class="container">
     <HouseForm :house="house" @save="saveHouse" />
   </div>
