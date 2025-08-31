@@ -3,6 +3,7 @@ import { ref, reactive, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
 import { useRoute } from "vue-router";
 import HouseForm from "../components/HouseForm.vue";
+import BackButton from "../components/BackButton.vue";
 
 const store = useHousesStore();
 const route = useRoute();
@@ -54,14 +55,9 @@ const saveHouse = (houseData) => {
 
 <template>
   <div class="container">
-    <section style="display: flex; align-items: center; gap: 20px">
-      <img
-        src="/ic_back_grey@3x.png"
-        alt="Back"
-        style="width: 30px; height: 30px; padding-top: 1px"
-      />
-      <h3>Back to detail page</h3>
-    </section>
+    <div style="margin-top: 10px; margin-bottom: 30px">
+      <BackButton text="Back to detail page" :to="`/detail-page/${house.id}`" />
+    </div>
     <HouseForm
       :house="house"
       :isEditMode="true"
