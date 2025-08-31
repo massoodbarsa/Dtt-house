@@ -6,7 +6,7 @@ const store = useHousesStore();
 
 const fileInput = ref(null);
 
-const house = reactive({
+const getEmptyForm = () => ({
   image: "",
   price: "",
   rooms: { bedrooms: "", bathrooms: "" },
@@ -22,6 +22,8 @@ const house = reactive({
   constructionYear: "",
   hasGarage: "",
 });
+
+const house = reactive(getEmptyForm());
 
 const newImageFile = ref(null);
 
@@ -61,17 +63,20 @@ const saveHouse = async () => {
     hasGarage: house.hasGarage === "true" || house.hasGarage === true,
     description: house.description,
   };
-  console.log(payload);
 
   try {
     // Pass payload and selected image file to store
     const createdHouse = await store.createHouse(payload, newImageFile.value);
     console.log("House created:", createdHouse);
+
+    // Reset the form
+    Object.assign(house, getEmptyForm());
+
+    // Clear selected file
+    newImageFile.value = null;
   } catch (err) {
     console.error("Failed to create house:", err);
   }
-
-  store.createHouse(payload);
 };
 </script>
 
