@@ -3,8 +3,10 @@ import { ref, reactive } from "vue";
 import { useHousesStore } from "../stores/houses";
 import HouseForm from "../components/HouseForm.vue";
 import BackButton from "../components/BackButton.vue";
+import { useRouter } from "vue-router";
 
 const store = useHousesStore();
+const router = useRouter();
 
 const getEmptyForm = () => ({
   image: "",
@@ -45,6 +47,7 @@ const saveHouse = async (houseData, imageFile) => {
     const createdHouse = await store.createHouse(payload, imageFile);
     console.log("House created:", createdHouse);
     Object.assign(house, getEmptyForm());
+    router.push(`/detail-page/${createdHouse.id}`);
   } catch (err) {
     console.error("Failed to create house:", err);
   }
