@@ -1,4 +1,4 @@
-/* variables.scss */
+/* variables.css */
 
 /* ------COLORS ------*/
 :root {
@@ -9,13 +9,13 @@
   --color-secondary: #4a4b4c;
   --color-secondary-rgb: 74, 75, 76;
 
-  --color-tertiary: #c3c3c3;
+  --color-tertiary: #c3c3c3; /* Using #C3C3C3 from style guide and provided variables.css */
   --color-tertiary-rgb: 195, 195, 195;
 
   /* Text colors */
   --color-text-primary: #000000;
   --color-text-secondary: #4a4b4c;
-  --color-text-tertiary: #fff;
+  --color-text-tertiary: #e8e8e8; /* Updated to match style guide's tertiary text color */
 
   /* Backgrounds */
   --bg-1: #f6f6f6;
@@ -40,7 +40,7 @@
   --fw-regular: 400;
 }
 
-/* Font sizes (desktop / mobile ) */
+/* Font sizes (desktop / mobile) */
 :root {
   /* Montserrat Bold */
   --h1-desktop: 32px;
@@ -51,13 +51,25 @@
   --button-desktop: 18px;
   --button-mobile: 12px;
 
+  /* Montserrat Semibold */
+  --back-button-desktop: 16px;
+  --input-title-desktop: 14px;
+  --input-title-mobile: 12px;
+
+  /* Montserrat Medium */
+  --menu-inactive-desktop: 18px;
+  --empty-state-desktop: 18px;
+  --empty-state-mobile: 14px;
+
   /* Montserrat Medium Italic */
   --error-desktop: 14px;
   --error-mobile: 12px;
 
-  /* Open Sans */
+  /* Open Sans Semibold */
   --listing-desktop: 16px;
   --listing-mobile: 12px;
+
+  /* Open Sans Regular */
   --body-desktop: 18px;
   --body-mobile: 12px;
   --input-desktop: 14px;

@@ -1,3 +1,4 @@
+```vue
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
@@ -82,23 +83,30 @@ const sortHouses = (criterion) => {
 
 <template>
   <section class="home">
-    <div class="row">
+    <div class="row header-row">
       <h1>Houses</h1>
       <button
-        class="btn"
+        class="btn create-btn"
         @click="createListing"
-        style="
-          background-color: var(
-            --color-primary
-          ); /* Highlight active sort button */
-          color: white;
-        "
+        title="Create New Listing"
       >
-        <span style="font-size: larger; margin-right: 5px">+</span>CREATE NEW
+        <span class="create-icon">
+          <img
+            src="/ic_plus_white@3x.png"
+            alt="create"
+            class="create-img desktop-icon"
+          />
+          <img
+            src="/ic_plus_grey@3x.png"
+            alt="create"
+            class="create-img mobile-icon"
+          />
+        </span>
+        <span class="create-text">CREATE</span>
       </button>
     </div>
 
-    <div class="row">
+    <div class="row controls-row">
       <div class="search-wrapper">
         <span class="search-icon">
           <img src="/ic_search@3x.png" alt="search" width="18" />
@@ -114,15 +122,10 @@ const sortHouses = (criterion) => {
         </span>
       </div>
 
-      <section>
+      <section class="toggle-btns">
         <button
           class="btn"
           :class="{ active: sortCriterion === 'price' }"
-          style="
-            border-radius: 5px 0 0 5px;
-            padding-left: 50px;
-            padding-right: 50px;
-          "
           @click="sortHouses('price')"
         >
           Price
@@ -133,11 +136,6 @@ const sortHouses = (criterion) => {
         <button
           class="btn"
           :class="{ active: sortCriterion === 'size' }"
-          style="
-            border-radius: 0 5px 5px 0;
-            padding-left: 50px;
-            padding-right: 50px;
-          "
           @click="sortHouses('size')"
         >
           Size
@@ -150,8 +148,8 @@ const sortHouses = (criterion) => {
 
     <p v-if="store.isLoading">Loading...</p>
     <div v-else-if="filteredHouses.length === 0">
-      <section style="margin: 100px 0">
-        <img src="/img_empty_houses@3x.png" alt="empty search" width="400" />
+      <section class="empty-state">
+        <img src="/img_empty_houses@3x.png" alt="empty search" width="200" />
         <p>No results found</p>
         <p>Please try another keyword.</p>
       </section>
@@ -164,14 +162,8 @@ const sortHouses = (criterion) => {
         @click="router.push(`/detail-page/${house.id}`)"
       >
         <div class="house-list">
-          <section>
-            <img
-              :src="house.image"
-              alt="house"
-              width="180"
-              height="180"
-              style="border-radius: 5px"
-            />
+          <section class="house-image">
+            <img :src="house.image" alt="house" style="border-radius: 5px" />
           </section>
           <section class="house-item">
             <h2>
@@ -182,14 +174,13 @@ const sortHouses = (criterion) => {
             <p style="color: var(--color-tertiary)">
               {{ house.location.zip }} {{ house.location.city }}
             </p>
-            <section class="house-options" style="gap: 20px">
+            <section class="house-options">
               <span class="house-options">
                 <img
                   src="/ic_bed@3x.png"
                   alt="bedrooms"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
+                  width="20"
+                  height="20"
                 />
                 <p>{{ house.rooms.bedrooms }}</p>
               </span>
@@ -197,39 +188,30 @@ const sortHouses = (criterion) => {
                 <img
                   src="/ic_bath@3x.png"
                   alt="bathrooms"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
+                  width="20"
+                  height="20"
                 />
                 <p>{{ house.rooms.bathrooms }}</p>
               </span>
               <span class="house-options">
-                <img
-                  src="/ic_size@3x.png"
-                  alt="size"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
-                />
+                <img src="/ic_size@3x.png" alt="size" width="20" height="20" />
                 <p>{{ house.size }}</p>
               </span>
             </section>
           </section>
         </div>
-        <section
-          style="align-self: flex-start; margin: 40px; gap: 20px; display: flex"
-        >
+        <section class="house-actions">
           <img
             src="/ic_edit@3x.png"
             alt="edit"
-            width="18"
+            width="24"
             @click.stop="editHouse(house.id)"
             style="cursor: pointer"
           />
           <img
             src="/ic_delete@3x.png"
             alt="delete"
-            width="18"
+            width="24"
             @click.stop="deleteHouse(house)"
             style="cursor: pointer"
           />
@@ -248,30 +230,80 @@ const sortHouses = (criterion) => {
 </template>
 
 <style scoped>
+.home {
+  padding: 20px;
+  position: relative;
+}
+
 .row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: var(--color-text-primary);
-  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.header-row {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.controls-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .btn {
-  font-size: var(--button-desktop);
-  height: 50px;
+  font-size: var(--button-desktop, 16px);
+  height: 48px;
+  padding: 0 20px;
   cursor: pointer;
   background-color: var(--color-tertiary);
+  border: none;
+  border-radius: 5px;
   transition: background-color 0.2s ease;
+  min-width: 100px;
+  touch-action: manipulation;
 }
 
 .btn.active {
-  background-color: var(--color-primary); /* Highlight active sort button */
+  background-color: var(--color-primary);
   color: white;
+}
+
+.create-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 15px;
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.create-img {
+  width: 20px;
+  height: 20px;
+}
+
+.desktop-icon {
+  display: inline-block;
+}
+
+.mobile-icon {
+  display: none;
+}
+
+.create-text {
+  display: inline;
 }
 
 .search-wrapper {
   position: relative;
-  width: 250px;
+  flex: 1;
+  max-width: 300px;
+  min-width: 200px;
 }
 
 .search {
@@ -279,35 +311,55 @@ const sortHouses = (criterion) => {
   background-color: var(--color-tertiary);
   border: none;
   border-radius: 5px;
-  padding: 12px 35px 12px 35px;
+  padding: 12px 40px 12px 35px;
   font-size: 14px;
   outline: none;
+  box-sizing: border-box;
 }
 
 .search-icon {
   position: absolute;
   left: 10px;
-  top: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
 }
 
 .clear-icon {
   position: absolute;
-  right: -40px;
-  top: 13px;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
   transition: color 0.2s ease;
+}
+
+.toggle-btns {
+  display: flex;
+  gap: 0;
+}
+
+.toggle-btns .btn {
+  flex: 1;
+  border-radius: 0;
+}
+
+.toggle-btns .btn:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+.toggle-btns .btn:last-child {
+  border-radius: 0 5px 5px 0;
 }
 
 .house-list-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 30px;
+  gap: 20px;
   margin-bottom: 20px;
-  margin-top: 20px;
   background-color: var(--bg-2);
-  padding: 5px 20px;
+  padding: 15px;
   border-radius: 5px;
   cursor: pointer;
 }
@@ -315,20 +367,220 @@ const sortHouses = (criterion) => {
 .house-list {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
+  flex: 1;
+}
+
+.house-image img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 .house-item {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: flex-start;
+  /* flex: 1; */
+}
+
+.house-item h2 {
+  font-size: 18px;
+  margin: 0 0 5px 0;
+}
+
+.house-item p {
+  margin: 5px 0;
 }
 
 .house-options {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   color: var(--color-text-secondary);
+}
+
+.house-options img {
+  border-radius: 5px;
+}
+
+.house-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  align-self: flex-start;
+}
+
+.empty-state {
+  text-align: center;
+  margin: 50px 0;
+}
+
+.empty-state img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .home {
+    padding: 15px;
+  }
+
+  .header-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  .create-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    min-width: unset;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .create-text {
+    display: none;
+  }
+
+  .desktop-icon {
+    display: none;
+  }
+
+  .mobile-icon {
+    display: inline-block;
+  }
+
+  .create-img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .toggle-btns {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .toggle-btns .btn {
+    flex: 1;
+    padding: 0 10px;
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .house-list-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .house-list {
+    /* flex-direction: column; */
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .house-image img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .house-item h2 {
+    font-size: 16px;
+  }
+
+  .house-item p {
+    font-size: 14px;
+  }
+
+  .house-options {
+    gap: 10px;
+  }
+
+  .house-options img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .house-actions {
+    /* align-self: flex-end; */
+    gap: 20px;
+  }
+
+  .house-actions img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .empty-state img {
+    width: 150px;
+  }
+}
+
+@media (max-width: 780px) {
+  .btn {
+    font-size: 14px;
+    height: 40px;
+  }
+
+  .search {
+    font-size: 12px;
+    padding: 10px 35px 10px 30px;
+  }
+
+  .search-icon img,
+  .clear-icon img {
+    width: 16px;
+  }
+
+  .create-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .create-img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .house-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+
+  .house-actions {
+    align-self: flex-end;
+    gap: 20px;
+  }
+
+  .house-actions img {
+    width: 15px;
+    height: 15px;
+  }
 }
 </style>

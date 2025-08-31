@@ -24,4 +24,11 @@ import Header from "@/components/Header.vue";
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
+@media (max-width: 768px) {
+  .main-content {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
 </style>
