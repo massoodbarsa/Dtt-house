@@ -118,6 +118,7 @@ const createListing = (id) => {
         v-for="house in filteredHouses"
         :key="house.id"
         class="house-list-container"
+        @click="router.push(`/detail-page/${house.id}`)"
       >
         <div class="house-list">
           <section>

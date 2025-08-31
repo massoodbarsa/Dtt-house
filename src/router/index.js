@@ -3,6 +3,7 @@ import Houses from "../pages/Houses.vue";
 import About from "../pages/About.vue";
 import EditListing from "../pages/EditListing.vue";
 import CreateListing from "../pages/CreateListing.vue";
+import DetailPage from "../pages/DetailPage.vue";
 
 const routes = [
   { path: "/", name: "Houses", component: Houses },
@@ -17,6 +18,12 @@ const routes = [
     path: "/create-listing",
     name: "CreateListing",
     component: CreateListing,
+  },
+  {
+    path: "/detail-page/:id",
+    name: "DetailPage",
+    component: DetailPage,
+    props: true,
   },
 ];
 
