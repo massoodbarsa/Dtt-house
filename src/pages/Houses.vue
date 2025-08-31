@@ -8,6 +8,10 @@ const store = useHousesStore();
 const searchQuery = ref("");
 const router = useRouter();
 
+// Sorting state
+const sortCriterion = ref("price"); // price, size
+const sortOrder = ref("asc"); // asc or desc
+
 // Modal state
 const showModal = ref(false);
 const houseToDelete = ref(null);
@@ -16,11 +20,22 @@ const clearSearch = () => {
   searchQuery.value = "";
 };
 
-const filteredHouses = computed(() =>
-  store.items.filter((house) =>
+// Compute filtered and sorted houses
+const filteredHouses = computed(() => {
+  let houses = store.items.filter((house) =>
     house.location.city.toLowerCase().includes(searchQuery.value.toLowerCase())
-  )
-);
+  );
+
+  if (sortCriterion.value) {
+    houses = [...houses].sort((a, b) => {
+      const valueA = sortCriterion.value === "price" ? a.price : a.size;
+      const valueB = sortCriterion.value === "price" ? b.price : b.size;
+      return sortOrder.value === "asc" ? valueA - valueB : valueB - valueA;
+    });
+  }
+
+  return houses;
+});
 
 onMounted(() => {
   store.fetchAll();
@@ -37,7 +52,7 @@ const deleteHouse = (house) => {
 
 const confirmDelete = async () => {
   if (houseToDelete.value) {
-    await store.deleteHouse(houseToDelete.value.id); // delete from API
+    await store.deleteHouse(houseToDelete.value.id);
     houseToDelete.value = null;
     showModal.value = false;
   }
@@ -48,8 +63,20 @@ const cancelDelete = () => {
   showModal.value = false;
 };
 
-const createListing = (id) => {
+const createListing = () => {
   router.push(`/create-listing`);
+};
+
+// Handle sorting
+const sortHouses = (criterion) => {
+  if (sortCriterion.value === criterion) {
+    // Toggle sort order if same criterion is clicked
+    sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
+  } else {
+    // Set new criterion and default to ascending
+    sortCriterion.value = criterion;
+    sortOrder.value = "asc";
+  }
 };
 </script>
 
@@ -57,7 +84,16 @@ const createListing = (id) => {
   <section class="home">
     <div class="row">
       <h1>Houses</h1>
-      <button class="btn" @click="createListing">
+      <button
+        class="btn"
+        @click="createListing"
+        style="
+          background-color: var(
+            --color-primary
+          ); /* Highlight active sort button */
+          color: white;
+        "
+      >
         <span style="font-size: larger; margin-right: 5px">+</span>CREATE NEW
       </button>
     </div>
@@ -67,40 +103,47 @@ const createListing = (id) => {
         <span class="search-icon">
           <img src="/ic_search@3x.png" alt="search" width="18" />
         </span>
-
         <input
           v-model="searchQuery"
           type="text"
           class="search"
           placeholder="Search for a house"
         />
-
         <span v-if="searchQuery" class="clear-icon" @click="clearSearch">
-          <img src="/ic_clear_white@3x.png" alt="search" width="18" />
+          <img src="/ic_clear_white@3x.png" alt="clear" width="18" />
         </span>
       </div>
 
       <section>
         <button
           class="btn"
+          :class="{ active: sortCriterion === 'price' }"
           style="
             border-radius: 5px 0 0 5px;
             padding-left: 50px;
             padding-right: 50px;
           "
+          @click="sortHouses('price')"
         >
           Price
+          {{
+            sortCriterion === "price" ? (sortOrder === "asc" ? "↑" : "↓") : ""
+          }}
         </button>
         <button
           class="btn"
+          :class="{ active: sortCriterion === 'size' }"
           style="
             border-radius: 0 5px 5px 0;
-            background-color: var(--color-tertiary);
             padding-left: 50px;
             padding-right: 50px;
           "
+          @click="sortHouses('size')"
         >
           Size
+          {{
+            sortCriterion === "size" ? (sortOrder === "asc" ? "↑" : "↓") : ""
+          }}
         </button>
       </section>
     </div>
@@ -108,8 +151,8 @@ const createListing = (id) => {
     <p v-if="store.isLoading">Loading...</p>
     <div v-else-if="filteredHouses.length === 0">
       <section style="margin: 100px 0">
-        <img src="/img_empty_houses@3x.png" alt="empty ssearch" width="400" />
-        <p>No resault found</p>
+        <img src="/img_empty_houses@3x.png" alt="empty search" width="400" />
+        <p>No results found</p>
         <p>Please try another keyword.</p>
       </section>
     </div>
@@ -124,7 +167,7 @@ const createListing = (id) => {
           <section>
             <img
               :src="house.image"
-              alt="search"
+              alt="house"
               width="180"
               height="180"
               style="border-radius: 5px"
@@ -143,33 +186,33 @@ const createListing = (id) => {
               <span class="house-options">
                 <img
                   src="/ic_bed@3x.png"
-                  alt="search"
+                  alt="bedrooms"
                   width="25"
                   height="25"
                   style="border-radius: 5px"
                 />
-                <p>{{ house.rooms.bedrooms }}</p></span
-              >
+                <p>{{ house.rooms.bedrooms }}</p>
+              </span>
               <span class="house-options">
                 <img
                   src="/ic_bath@3x.png"
-                  alt="search"
+                  alt="bathrooms"
                   width="25"
                   height="25"
                   style="border-radius: 5px"
                 />
-                <p>{{ house.rooms.bathrooms }}</p></span
-              >
+                <p>{{ house.rooms.bathrooms }}</p>
+              </span>
               <span class="house-options">
                 <img
                   src="/ic_size@3x.png"
-                  alt="search"
+                  alt="size"
                   width="25"
                   height="25"
                   style="border-radius: 5px"
                 />
-                <p>{{ house.size }}</p></span
-              >
+                <p>{{ house.size }}</p>
+              </span>
             </section>
           </section>
         </div>
@@ -180,14 +223,14 @@ const createListing = (id) => {
             src="/ic_edit@3x.png"
             alt="edit"
             width="18"
-            @click="editHouse(house.id)"
+            @click.stop="editHouse(house.id)"
             style="cursor: pointer"
           />
           <img
             src="/ic_delete@3x.png"
             alt="delete"
             width="18"
-            @click="deleteHouse(house)"
+            @click.stop="deleteHouse(house)"
             style="cursor: pointer"
           />
         </section>
@@ -217,6 +260,13 @@ const createListing = (id) => {
   font-size: var(--button-desktop);
   height: 50px;
   cursor: pointer;
+  background-color: var(--color-tertiary);
+  transition: background-color 0.2s ease;
+}
+
+.btn.active {
+  background-color: var(--color-primary); /* Highlight active sort button */
+  color: white;
 }
 
 .search-wrapper {
@@ -229,7 +279,7 @@ const createListing = (id) => {
   background-color: var(--color-tertiary);
   border: none;
   border-radius: 5px;
-  padding: 12px 35px 12px 35px; /* space for icons */
+  padding: 12px 35px 12px 35px;
   font-size: 14px;
   outline: none;
 }
@@ -259,16 +309,13 @@ const createListing = (id) => {
   background-color: var(--bg-2);
   padding: 5px 20px;
   border-radius: 5px;
+  cursor: pointer;
 }
+
 .house-list {
   display: flex;
   align-items: center;
   gap: 30px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  background-color: var(--bg-2);
-  padding: 5px 20px;
-  border-radius: 5px;
 }
 
 .house-item {
