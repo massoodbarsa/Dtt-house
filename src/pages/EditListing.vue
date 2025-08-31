@@ -1,13 +1,16 @@
+```vue
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import HouseForm from "../components/HouseForm.vue";
 import BackButton from "../components/BackButton.vue";
 
 const store = useHousesStore();
 const route = useRoute();
+const router = useRouter();
 const houseId = Number(route.params.id);
+const errorMessage = ref(null);
 
 const house = reactive({
   id: null,
@@ -32,24 +35,26 @@ onMounted(() => {
   if (found) Object.assign(house, found);
 });
 
-const uploadImage = async (file) => {
-  try {
-    const data = await store.uploadImage(houseId, file);
-    console.log("Image uploaded:", data);
-    if (data.image) {
-      house.image = data.image;
-    }
-  } catch (err) {
-    console.error("Image upload failed:", err);
-  }
-};
-
 const removeImage = () => {
-  house.image = "";
+  house.image = ""; // Clear the image preview
 };
 
-const saveHouse = (houseData) => {
-  store.editHouse(houseData);
+const saveHouse = async (houseData, imageFile) => {
+  try {
+    const updatedHouse = await store.saveHouse(
+      { ...houseData, id: houseId },
+      imageFile,
+      true
+    );
+
+    errorMessage.value = null;
+    const redirectId = updatedHouse?.id || houseId; // Use houseId if response is null or missing id
+    console.log("Navigating to detail page:", `/detail-page/${redirectId}`);
+    router.push(`/detail-page/${redirectId}`);
+  } catch (err) {
+    console.error("Failed to update house:", err);
+    errorMessage.value = "Failed to update house.";
+  }
 };
 </script>
 
@@ -58,11 +63,11 @@ const saveHouse = (houseData) => {
     <div style="margin-top: 10px; margin-bottom: 30px">
       <BackButton text="Back to detail page" :to="`/detail-page/${house.id}`" />
     </div>
+    <span class="error" v-if="errorMessage">{{ errorMessage }}</span>
     <HouseForm
       :house="house"
       :isEditMode="true"
       @save="saveHouse"
-      @upload-image="uploadImage"
       @remove-image="removeImage"
     />
   </div>
@@ -77,4 +82,11 @@ const saveHouse = (houseData) => {
   background-position: right center;
   background-repeat: no-repeat;
 }
+.error {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
+}
 </style>
+```

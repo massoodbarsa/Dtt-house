@@ -1,3 +1,4 @@
+```vue
 <script setup>
 import { ref, reactive } from "vue";
 import { useHousesStore } from "../stores/houses";
@@ -28,23 +29,8 @@ const getEmptyForm = () => ({
 const house = reactive(getEmptyForm());
 
 const saveHouse = async (houseData, imageFile) => {
-  const payload = {
-    price: Number(houseData.price) || 0,
-    bedrooms: Number(houseData.rooms.bedrooms) || 0,
-    bathrooms: Number(houseData.rooms.bathrooms) || 0,
-    size: Number(houseData.size) || 0,
-    streetName: houseData.location.street,
-    houseNumber: String(houseData.location.houseNumber),
-    numberAddition: houseData.location.houseNumberAddition || "",
-    zip: houseData.location.zip,
-    city: houseData.location.city,
-    constructionYear: Number(houseData.constructionYear) || 0,
-    hasGarage: houseData.hasGarage === "true" || houseData.hasGarage === true,
-    description: houseData.description,
-  };
-
   try {
-    const createdHouse = await store.createHouse(payload, imageFile);
+    const createdHouse = await store.saveHouse(houseData, imageFile, false); // isEdit = false for create
     console.log("House created:", createdHouse);
     Object.assign(house, getEmptyForm());
     router.push(`/detail-page/${createdHouse.id}`);
@@ -71,3 +57,4 @@ const saveHouse = async (houseData, imageFile) => {
   background-repeat: no-repeat;
 }
 </style>
+```

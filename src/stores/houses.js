@@ -24,9 +24,8 @@ export const useHousesStore = defineStore("houses", {
       }
     },
 
+    // Delete
     async deleteHouse(id) {
-      console.log(id);
-      /*Not autorized */
       try {
         await server(`/houses/${id}`, { method: "DELETE" });
         this.items = this.items.filter((h) => h.id !== id); // update local state
@@ -40,110 +39,108 @@ export const useHousesStore = defineStore("houses", {
       console.log(`House ${id} removed from store`);
     },
 
-    //Edit listing
-    async editHouse(updatedHouse) {
-      const index = this.items.findIndex((h) => h.id === updatedHouse.id);
-
-      if (index !== -1) {
-        // Optimistic update
-        this.items[index] = { ...this.items[index], ...updatedHouse };
-      }
-
-      // Prepare form data as API expects
-      const body = new URLSearchParams({
-        price: updatedHouse.price || 0,
-        bedrooms: updatedHouse.rooms?.bedrooms || 0,
-        bathrooms: updatedHouse.rooms?.bathrooms || 0,
-        size: updatedHouse.size || 0,
-
-        zip: updatedHouse.location?.zip || "",
-        city: updatedHouse.location?.city || "",
-
-        description: updatedHouse.description || "",
-      });
+    async saveHouse(houseData, imageFile = null, isEdit = false) {
+      const payload = {
+        price: Number(houseData.price) || 0,
+        bedrooms: Number(houseData.rooms?.bedrooms || houseData.bedrooms) || 0,
+        bathrooms:
+          Number(houseData.rooms?.bathrooms || houseData.bathrooms) || 0,
+        size: Number(houseData.size) || 0,
+        streetName: houseData.location?.street || houseData.streetName || "",
+        houseNumber:
+          String(houseData.location?.houseNumber || houseData.houseNumber) ||
+          "",
+        numberAddition:
+          houseData.location?.houseNumberAddition ||
+          houseData.numberAddition ||
+          "",
+        zip: houseData.location?.zip || houseData.zip || "",
+        city: houseData.location?.city || houseData.city || "",
+        constructionYear: Number(houseData.constructionYear) || 0,
+        hasGarage:
+          houseData.hasGarage === true || houseData.hasGarage === "true",
+        description: houseData.description || "",
+      };
 
       try {
-        const data = await server(`/houses/${updatedHouse.id}`, {
-          method: "PUT", // API uses POST for edit
-          body: body, // pass URLSearchParams directly
-        });
+        const endpoint = isEdit ? `/houses/${houseData.id}` : "/houses";
+        const method = "POST";
+        console.log(
+          "saveHouse: Sending request to",
+          endpoint,
+          "with payload:",
+          payload
+        );
+        const data = await server(endpoint, { method, body: payload });
+        console.log("saveHouse: API response:", data);
 
-        // Update local state with response from API
-        if (index !== -1) this.items[index] = data;
+        // Handle null or invalid response
+        const responseData =
+          data && typeof data === "object" && data.id
+            ? data
+            : { ...payload, id: houseData.id || null };
+        if (!responseData.id) {
+          console.warn(
+            "saveHouse: Invalid API response, using fallback ID:",
+            houseData.id
+          );
+        }
 
-        return data;
-      } catch (err) {
-        console.error("Failed to update house:", err);
-        throw err;
-      }
-    },
-    // async uploadImage(houseId, file) {
-    //   const formData = new FormData();
-    //   formData.append("image", file);
+        if (isEdit) {
+          const index = this.items.findIndex((h) => h.id === houseData.id);
+          if (index !== -1) {
+            this.items[index] = { ...this.items[index], ...responseData };
+          }
+        } else {
+          this.items.push(responseData);
+        }
 
-    //   // Use server helper
-    //   const data = await server(`/houses/${houseId}/upload`, {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-
-    //   // Update local state
-    //   const index = this.items.findIndex((h) => h.id === houseId);
-    //   if (index !== -1) {
-    //     this.items[index] = { ...this.items[index], ...data };
-    //   }
-
-    //   return data;
-    // },
-
-    //Create listing
-    async createHouse(payload, imageFile = null) {
-      try {
-        const createdHouse = await server("/houses", {
-          method: "POST",
-          body: {
-            price: Number(payload.price) || 0,
-            bedrooms: Number(payload.bedrooms) || 0,
-            bathrooms: Number(payload.bathrooms) || 0,
-            size: Number(payload.size) || 0,
-            streetName: payload.streetName,
-            houseNumber: String(payload.houseNumber),
-            numberAddition: payload.numberAddition || "",
-            zip: payload.zip,
-            city: payload.city,
-            constructionYear: Number(payload.constructionYear) || 0,
-            hasGarage:
-              payload.hasGarage === "true" || payload.hasGarage === true,
-            description: payload.description,
-          },
-        });
-
-        // Add to local store
-        this.items.push(createdHouse);
-
-        // Upload image if provided
         if (imageFile) {
           const formData = new FormData();
           formData.append("image", imageFile);
-
-          await fetch(
-            `https://api.intern.d-tt.nl/api/houses/${createdHouse.id}/upload`,
-            {
-              method: "POST",
-              headers: {
-                "X-Api-Key": import.meta.env.VITE_API_KEY,
-              },
-              body: formData,
-            }
+          console.log(
+            "saveHouse: Uploading image for house ID:",
+            responseData.id || houseData.id
           );
-
-          //  Assign local preview so UI updates immediately
-          createdHouse.image = URL.createObjectURL(imageFile);
+          try {
+            const uploadResponse = await fetch(
+              `https://api.intern.d-tt.nl/api/houses/${
+                responseData.id || houseData.id
+              }/upload`,
+              {
+                method: "POST",
+                headers: {
+                  "X-Api-Key": import.meta.env.VITE_API_KEY,
+                },
+                body: formData,
+              }
+            );
+            console.log("saveHouse: Image upload response:", uploadResponse);
+            if (!uploadResponse.ok) {
+              console.error(
+                `saveHouse: Image upload failed with status: ${uploadResponse.status}`
+              );
+            } else {
+              responseData.image = URL.createObjectURL(imageFile);
+            }
+          } catch (uploadErr) {
+            console.error("saveHouse: Image upload error:", uploadErr);
+            // Continue despite image upload failure
+          }
         }
 
-        return createdHouse;
+        return responseData;
       } catch (err) {
-        console.error("Failed to create house:", err);
+        console.error(
+          `saveHouse: Failed to ${isEdit ? "update" : "create"} house:`,
+          err
+        );
+        if (isEdit) {
+          const index = this.items.findIndex((h) => h.id === houseData.id);
+          if (index !== -1) {
+            await this.fetchAll(); // Revert state
+          }
+        }
         throw err;
       }
     },
