@@ -365,9 +365,13 @@ const saveHouse = () => {
 }
 .input-double {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 50px;
   justify-content: flex-start;
+  width: 100%;
+}
+.input-double > div {
+  flex: 1; /* Ensure each input takes equal width */
 }
 input,
 select,
