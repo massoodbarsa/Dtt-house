@@ -1,16 +1,18 @@
-<script></script>
-tem
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
 import { useRoute } from "vue-router";
 import BackButton from "../components/BackButton.vue";
+import Modal from "@/components/Modal.vue";
+import { useRouter } from "vue-router";
 
 const store = useHousesStore();
 const route = useRoute();
 const houseId = Number(route.params.id);
+const router = useRouter();
 
-console.log(houseId);
+const showModal = ref(false);
+const houseToDelete = ref(null);
 
 const house = reactive({
   id: null,
@@ -43,6 +45,28 @@ onMounted(() => {
     .filter((h) => h.id !== houseId)
     .slice(0, 3);
 });
+
+const editHouse = (id) => {
+  router.push(`/edit-listing/${id}`);
+};
+
+const deleteHouse = (house) => {
+  houseToDelete.value = house;
+  showModal.value = true;
+};
+
+const confirmDelete = async () => {
+  if (houseToDelete.value) {
+    await store.deleteHouse(houseToDelete.value.id); // delete from API
+    houseToDelete.value = null;
+    showModal.value = false;
+  }
+};
+
+const cancelDelete = () => {
+  houseToDelete.value = null;
+  showModal.value = false;
+};
 </script>
 
 <template>
@@ -261,6 +285,13 @@ onMounted(() => {
         </section>
       </div>
     </aside>
+    <Modal
+      :show="showModal"
+      title="Delete House"
+      message="Are you sure you want to delete this house?"
+      @close="cancelDelete"
+      @confirm="confirmDelete"
+    />
   </div>
 </template>
 
