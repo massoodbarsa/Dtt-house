@@ -24,7 +24,12 @@ const validateField = (field) => {
       ? "House number is required"
       : "";
   } else if (field === "zip") {
-    errors.zip = !props.house.location.zip ? "Postal code is required" : "";
+    const zipRegex = /^\d{4}\s[A-Z]{2}$/;
+    errors.zip = !props.house.location.zip
+      ? "Postal code is required"
+      : !zipRegex.test(props.house.location.zip)
+      ? "Postal code must be 4 digits, a space, and 2 capital letters (e.g., 1234 AB)"
+      : "";
   } else if (field === "city") {
     errors.city = !props.house.location.city ? "City is required" : "";
   } else if (field === "image") {
