@@ -96,47 +96,54 @@ export const useHousesStore = defineStore("houses", {
     },
 
     //Create listing
-    async createHouse(payload) {
-      const mockData = {
-        price: 20,
-        bedrooms: 1,
-        bathrooms: 1,
-        size: 1,
-        streetName: "Overtoom",
-        houseNumber: "21",
-        numberAddition: "A",
-        zip: "1181TY",
-        city: "Amsterdam",
-        constructionYear: 1901,
-        hasGarage: false,
-        description: "Nice house!",
-      };
-      const body = {
-        price: payload.price,
-        bedrooms: payload.bedrooms,
-        bathrooms: payload.bathrooms,
-        size: payload.size,
-        streetName: payload.streetName,
-        houseNumber: payload.houseNumber,
-        numberAddition: payload.numberAddition,
-        zip: payload.zip,
-        city: payload.city,
-        constructionYear: payload.constructionYear,
-        hasGarage: payload.hasGarage,
-        description: payload.description,
-      };
-
-      console.log(body);
-
+    async createHouse(payload, imageFile = null) {
       try {
-        const response = await server("/houses", {
+        const createdHouse = await server("/houses", {
           method: "POST",
-          body,
+          body: {
+            price: Number(payload.price) || 0,
+            bedrooms: Number(payload.bedrooms) || 0,
+            bathrooms: Number(payload.bathrooms) || 0,
+            size: Number(payload.size) || 0,
+            streetName: payload.streetName,
+            houseNumber: String(payload.houseNumber),
+            numberAddition: payload.numberAddition || "",
+            zip: payload.zip,
+            city: payload.city,
+            constructionYear: Number(payload.constructionYear) || 0,
+            hasGarage:
+              payload.hasGarage === "true" || payload.hasGarage === true,
+            description: payload.description,
+          },
         });
-        console.log("✅ House created:", response);
-        this.items.push(response);
+
+        // Add to local store
+        this.items.push(createdHouse);
+
+        // Upload image if provided
+        if (imageFile) {
+          const formData = new FormData();
+          formData.append("image", imageFile);
+
+          await fetch(
+            `https://api.intern.d-tt.nl/api/houses/${createdHouse.id}/upload`,
+            {
+              method: "POST",
+              headers: {
+                "X-Api-Key": import.meta.env.VITE_API_KEY,
+              },
+              body: formData,
+            }
+          );
+
+          //  Assign local preview so UI updates immediately
+          createdHouse.image = URL.createObjectURL(imageFile);
+        }
+
+        return createdHouse;
       } catch (err) {
-        console.error("❌ Failed to create house:", err);
+        console.error("Failed to create house:", err);
+        throw err;
       }
     },
   },

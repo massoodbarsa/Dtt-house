@@ -63,6 +63,14 @@ const saveHouse = async () => {
   };
   console.log(payload);
 
+  try {
+    // Pass payload and selected image file to store
+    const createdHouse = await store.createHouse(payload, newImageFile.value);
+    console.log("House created:", createdHouse);
+  } catch (err) {
+    console.error("Failed to create house:", err);
+  }
+
   store.createHouse(payload);
 };
 </script>
