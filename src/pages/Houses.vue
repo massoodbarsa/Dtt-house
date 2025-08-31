@@ -204,13 +204,6 @@ const createListing = (id) => {
 </template>
 
 <style scoped>
-.home {
-  padding-left: 15%;
-  padding-right: 15%;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
 .row {
   display: flex;
   justify-content: space-between;

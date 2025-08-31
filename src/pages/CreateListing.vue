@@ -238,8 +238,6 @@ const saveHouse = async () => {
 }
 .edit-house {
   max-width: 400px;
-  padding-left: 15%;
-  padding-right: 15%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

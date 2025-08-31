@@ -40,6 +40,7 @@ export const useHousesStore = defineStore("houses", {
       console.log(`House ${id} removed from store`);
     },
 
+    //Edit listing
     async editHouse(updatedHouse) {
       const index = this.items.findIndex((h) => h.id === updatedHouse.id);
 
@@ -63,7 +64,7 @@ export const useHousesStore = defineStore("houses", {
 
       try {
         const data = await server(`/houses/${updatedHouse.id}`, {
-          method: "POST", // API uses POST for edit
+          method: "PUT", // API uses POST for edit
           body: body, // pass URLSearchParams directly
         });
 
@@ -76,24 +77,24 @@ export const useHousesStore = defineStore("houses", {
         throw err;
       }
     },
-    async uploadImage(houseId, file) {
-      const formData = new FormData();
-      formData.append("image", file);
+    // async uploadImage(houseId, file) {
+    //   const formData = new FormData();
+    //   formData.append("image", file);
 
-      // Use server helper
-      const data = await server(`/houses/${houseId}/upload`, {
-        method: "POST",
-        body: formData,
-      });
+    //   // Use server helper
+    //   const data = await server(`/houses/${houseId}/upload`, {
+    //     method: "POST",
+    //     body: formData,
+    //   });
 
-      // Update local state
-      const index = this.items.findIndex((h) => h.id === houseId);
-      if (index !== -1) {
-        this.items[index] = { ...this.items[index], ...data };
-      }
+    //   // Update local state
+    //   const index = this.items.findIndex((h) => h.id === houseId);
+    //   if (index !== -1) {
+    //     this.items[index] = { ...this.items[index], ...data };
+    //   }
 
-      return data;
-    },
+    //   return data;
+    // },
 
     //Create listing
     async createHouse(payload, imageFile = null) {

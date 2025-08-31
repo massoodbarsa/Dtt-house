@@ -19,6 +19,9 @@ import Header from "@/components/Header.vue";
 }
 .main-content {
   flex: 1;
-  padding: 2rem;
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 </style>
