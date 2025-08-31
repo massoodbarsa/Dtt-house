@@ -102,15 +102,19 @@ const cancelDelete = () => {
     </div>
 
     <p v-if="store.isLoading">Loading...</p>
-
+    <div v-else-if="filteredHouses.length === 0">
+      <section style="margin: 100px 0">
+        <img src="/img_empty_houses@3x.png" alt="empty ssearch" width="400" />
+        <p>No resault found</p>
+        <p>Please try another keyword.</p>
+      </section>
+    </div>
     <div v-else>
       <div
         v-for="house in filteredHouses"
         :key="house.id"
         class="house-list-container"
       >
-        <!-- {{ house }} -->
-
         <div class="house-list">
           <section>
             <img
@@ -172,12 +176,14 @@ const cancelDelete = () => {
             alt="edit"
             width="18"
             @click="editHouse(house.id)"
+            style="cursor: pointer"
           />
           <img
             src="/ic_delete@3x.png"
             alt="delete"
             width="18"
             @click="deleteHouse(house)"
+            style="cursor: pointer"
           />
         </section>
       </div>
