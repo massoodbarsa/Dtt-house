@@ -267,6 +267,11 @@ const sortHouses = (criterion) => {
   touch-action: manipulation;
 }
 
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-primary-light); /* custom focus ring */
+}
+
 .btn.active {
   background-color: var(--color-primary);
   color: white;
@@ -346,6 +351,7 @@ const sortHouses = (criterion) => {
 
 .toggle-btns .btn:first-child {
   border-radius: 5px 0 0 5px;
+  width: 150px;
 }
 
 .toggle-btns .btn:last-child {
@@ -423,6 +429,11 @@ const sortHouses = (criterion) => {
   height: auto;
 }
 
+.house-actions img {
+  width: 20px;
+  height: 20px;
+}
+
 @media (max-width: 768px) {
   .home {
     padding: 15px;
@@ -430,7 +441,7 @@ const sortHouses = (criterion) => {
 
   .header-row {
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center; /* Center the content (h1) */
     align-items: center;
     position: relative;
   }
@@ -450,6 +461,7 @@ const sortHouses = (criterion) => {
     justify-content: center;
   }
 
+  /* Rest of your existing mobile styles */
   .create-text {
     display: none;
   }
@@ -490,13 +502,11 @@ const sortHouses = (criterion) => {
   }
 
   .house-list-container {
-    flex-direction: column;
     align-items: flex-start;
     padding: 10px;
   }
 
   .house-list {
-    /* flex-direction: column; */
     align-items: flex-start;
     width: 100%;
   }
@@ -526,39 +536,11 @@ const sortHouses = (criterion) => {
   }
 
   .house-actions {
-    /* align-self: flex-end; */
-    gap: 20px;
-  }
-
-  .house-actions img {
-    width: 28px;
-    height: 28px;
+    gap: 10px;
   }
 
   .empty-state img {
     width: 150px;
-  }
-}
-
-@media (max-width: 780px) {
-  .btn {
-    font-size: 14px;
-    height: 40px;
-  }
-
-  .search {
-    font-size: 12px;
-    padding: 10px 35px 10px 30px;
-  }
-
-  .search-icon img,
-  .clear-icon img {
-    width: 16px;
-  }
-
-  .create-btn {
-    width: 36px;
-    height: 36px;
   }
 
   .create-img {
@@ -571,11 +553,6 @@ const sortHouses = (criterion) => {
     height: 100px;
     object-fit: cover;
     border-radius: 5px;
-  }
-
-  .house-actions {
-    align-self: flex-end;
-    gap: 20px;
   }
 
   .house-actions img {
