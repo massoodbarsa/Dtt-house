@@ -19,7 +19,7 @@
     <div
       style="display: flex; gap: 3rem; margin-top: 10px; align-items: center"
     >
-      <img src="/img_logo_dtt@3x.png" alt="Logo" width="250px" height="80px" />
+      <img src="/img_logo_dtt@3x.png" alt="Logo" width="180px" height="80px" />
       <section class="container" style="">
         <p>By DTT</p>
         <a href="https://www.d-tt.nl" target="_blank" rel="noopener noreferrer">
