@@ -98,7 +98,7 @@ onMounted(() => {
                   height="25"
                   style="border-radius: 5px"
                 />
-                <p>{{ house.rooms.bedrooms }}</p></span
+                <p>{{ house.price }}</p></span
               >
               <span class="house-options">
                 <img
@@ -108,7 +108,7 @@ onMounted(() => {
                   height="25"
                   style="border-radius: 5px"
                 />
-                <p>{{ house.size }}</p></span
+                <p>{{ house.size }} m2</p></span
               >
               <span class="house-options">
                 <img
@@ -118,7 +118,7 @@ onMounted(() => {
                   height="25"
                   style="border-radius: 5px"
                 />
-                <p>{{ house.size }}</p></span
+                <p>Built in {{ house.constructionYear }}</p></span
               >
             </section>
 
@@ -152,7 +152,8 @@ onMounted(() => {
                   height="25"
                   style="border-radius: 5px"
                 />
-                <p>{{ house.size }}</p></span
+
+                <p>{{ house.hasGarage === true ? "Yes" : "No" }}</p></span
               >
             </section>
           </section>
