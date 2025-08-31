@@ -27,14 +27,14 @@ export const useHousesStore = defineStore("houses", {
     async deleteHouse(id) {
       console.log(id);
       /*Not autorized */
-      // try {
-      //   await server(`/houses/${id}`, { method: "DELETE" });
-      //   this.items = this.items.filter((h) => h.id !== id); // update local state
-      //   console.log(`House ${id} deleted`);
-      // } catch (e) {
-      //   console.error("Delete error:", e);
-      //   this.error = e.message;
-      // }
+      try {
+        await server(`/houses/${id}`, { method: "DELETE" });
+        this.items = this.items.filter((h) => h.id !== id); // update local state
+        console.log(`House ${id} deleted`);
+      } catch (e) {
+        console.error("Delete error:", e);
+        this.error = e.message;
+      }
 
       this.items = this.items.filter((h) => h.id !== id);
       console.log(`House ${id} removed from store`);
@@ -93,6 +93,51 @@ export const useHousesStore = defineStore("houses", {
       }
 
       return data;
+    },
+
+    //Create listing
+    async createHouse(payload) {
+      const mockData = {
+        price: 20,
+        bedrooms: 1,
+        bathrooms: 1,
+        size: 1,
+        streetName: "Overtoom",
+        houseNumber: "21",
+        numberAddition: "A",
+        zip: "1181TY",
+        city: "Amsterdam",
+        constructionYear: 1901,
+        hasGarage: false,
+        description: "Nice house!",
+      };
+      const body = {
+        price: payload.price,
+        bedrooms: payload.bedrooms,
+        bathrooms: payload.bathrooms,
+        size: payload.size,
+        streetName: payload.streetName,
+        houseNumber: payload.houseNumber,
+        numberAddition: payload.numberAddition,
+        zip: payload.zip,
+        city: payload.city,
+        constructionYear: payload.constructionYear,
+        hasGarage: payload.hasGarage,
+        description: payload.description,
+      };
+
+      console.log(body);
+
+      try {
+        const response = await server("/houses", {
+          method: "POST",
+          body,
+        });
+        console.log("✅ House created:", response);
+        this.items.push(response);
+      } catch (err) {
+        console.error("❌ Failed to create house:", err);
+      }
     },
   },
 });

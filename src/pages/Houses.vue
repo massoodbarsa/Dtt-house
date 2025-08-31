@@ -47,13 +47,17 @@ const cancelDelete = () => {
   houseToDelete.value = null;
   showModal.value = false;
 };
+
+const createListing = (id) => {
+  router.push(`/create-listing`);
+};
 </script>
 
 <template>
   <section class="home">
     <div class="row">
       <h1>Houses</h1>
-      <button class="btn">
+      <button class="btn" @click="createListing">
         <span style="font-size: larger; margin-right: 5px">+</span>CREATE NEW
       </button>
     </div>
