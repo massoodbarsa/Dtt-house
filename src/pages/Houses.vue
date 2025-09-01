@@ -1,3 +1,4 @@
+```vue
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
@@ -16,22 +17,15 @@ const sortOrder = ref("asc"); // asc or desc
 const showModal = ref(false);
 const houseToDelete = ref(null);
 
-// Favorites filter state
-const showFavoritesOnly = ref(false);
-
 const clearSearch = () => {
   searchQuery.value = "";
 };
 
 // Compute filtered and sorted houses
 const filteredHouses = computed(() => {
-  let houses = showFavoritesOnly.value
-    ? store.favorites
-    : store.items.filter((house) =>
-        house.location.city
-          .toLowerCase()
-          .includes(searchQuery.value.toLowerCase())
-      );
+  let houses = store.items.filter((house) =>
+    house.location.city.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
 
   if (sortCriterion.value) {
     houses = [...houses].sort((a, b) => {
@@ -93,11 +87,6 @@ const toggleFavorite = (house) => {
   } else {
     store.addFavorite(house);
   }
-};
-
-// Toggle favorites filter
-const toggleFavoritesFilter = () => {
-  showFavoritesOnly.value = !showFavoritesOnly.value;
 };
 </script>
 
@@ -163,14 +152,6 @@ const toggleFavoritesFilter = () => {
             sortCriterion === "size" ? (sortOrder === "asc" ? "↑" : "↓") : ""
           }}
         </button>
-        <button
-          class="btn favorites-btn"
-          :class="{ active: showFavoritesOnly }"
-          @click="toggleFavoritesFilter"
-          title="Toggle Favorites Filter"
-        >
-          <span class="favorites-text">Favorites</span>
-        </button>
       </section>
     </div>
 
@@ -230,17 +211,6 @@ const toggleFavoritesFilter = () => {
         </div>
         <section class="house-actions">
           <img
-            :src="
-              store.favorites.some((fav) => fav.id === house.id)
-                ? '/heart_668687.png'
-                : '/heart_3916769.png'
-            "
-            alt="favorite"
-            width="24"
-            @click.stop="toggleFavorite(house)"
-            style="cursor: pointer"
-          />
-          <img
             src="/ic_edit@3x.png"
             alt="edit"
             width="24"
@@ -287,6 +257,12 @@ const toggleFavoritesFilter = () => {
   gap: 10px;
 }
 
+.controls-row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
 .btn {
   font-size: var(--button-desktop, 16px);
   height: 48px;
@@ -320,8 +296,7 @@ const toggleFavoritesFilter = () => {
   color: white;
 }
 
-.create-img,
-.favorites-img {
+.create-img {
   width: 20px;
   height: 20px;
 }
@@ -334,8 +309,7 @@ const toggleFavoritesFilter = () => {
   display: none;
 }
 
-.create-text,
-.favorites-text {
+.create-text {
   display: inline;
 }
 
@@ -389,21 +363,8 @@ const toggleFavoritesFilter = () => {
   width: 150px;
 }
 
-.toggle-btns .btn:nth-child(2) {
-  border-radius: 0;
-}
-
-.toggle-btns .favorites-btn {
+.toggle-btns .btn:last-child {
   border-radius: 0 5px 5px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 0 15px;
-}
-
-.favorites-btn.active {
-  background-color: rgb(255, 0, 136);
 }
 
 .house-list-container {
@@ -437,6 +398,7 @@ const toggleFavoritesFilter = () => {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
+  /* flex: 1; */
 }
 
 .house-item h2 {
@@ -488,7 +450,7 @@ const toggleFavoritesFilter = () => {
 
   .header-row {
     flex-direction: row;
-    justify-content: center;
+    justify-content: center; /* Center the content (h1) */
     align-items: center;
     position: relative;
   }
@@ -508,6 +470,7 @@ const toggleFavoritesFilter = () => {
     justify-content: center;
   }
 
+  /* Rest of your existing mobile styles */
   .create-text {
     display: none;
   }
@@ -528,7 +491,11 @@ const toggleFavoritesFilter = () => {
   .controls-row {
     flex-direction: column;
     align-items: stretch;
-    position: relative;
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+    width: 100%;
   }
 
   .toggle-btns {
@@ -541,30 +508,6 @@ const toggleFavoritesFilter = () => {
     padding: 0 10px;
     font-size: 14px;
     height: 40px;
-  }
-
-  .toggle-btns .favorites-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    min-width: unset;
-    padding: 0;
-    background-color: transparent;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .toggle-btns .favorites-text {
-    display: none;
-  }
-
-  .toggle-btns .favorites-img {
-    width: 24px;
-    height: 24px;
   }
 
   .house-list-container {
@@ -607,6 +550,11 @@ const toggleFavoritesFilter = () => {
 
   .empty-state img {
     width: 150px;
+  }
+
+  .create-img {
+    width: 20px;
+    height: 20px;
   }
 
   .house-image img {
