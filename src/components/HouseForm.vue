@@ -193,6 +193,7 @@ const saveHouse = () => {
   }
 };
 </script>
+
 <template>
   <div class="edit-house">
     <h1>{{ isEditMode ? "Edit listing" : "Create listing" }}</h1>
@@ -234,22 +235,11 @@ const saveHouse = () => {
     <div class="form-group">
       <p>Upload picture (PNG or JPG)*</p>
       <span style="position: relative" v-if="house.image">
-        <img
-          :src="house.image"
-          alt="House preview"
-          class="house-image"
-          style="width: 200px"
-        />
+        <img :src="house.image" alt="House preview" class="house-image" />
         <img
           src="/ic_clear_white@3x.png"
           alt="Remove image"
-          style="
-            width: 30px;
-            position: absolute;
-            right: -10px;
-            top: -10px;
-            cursor: pointer;
-          "
+          class="remove-image-btn"
           @click="removeImage"
         />
       </span>
@@ -350,42 +340,66 @@ const saveHouse = () => {
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
+  padding: 0 20px;
+  /* background-color: red; */
 }
+
+h1 {
+  font-size: 24px;
+}
+
 .house-image {
   width: 100%;
+  max-width: 200px;
   height: auto;
   border-radius: 8px;
   margin-bottom: 10px;
 }
+
+.remove-image-btn {
+  width: 30px;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  cursor: pointer;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
 }
+
 .input-double {
   display: flex;
   align-items: flex-start;
-  gap: 50px;
+  gap: 30px;
   justify-content: flex-start;
   width: 100%;
+  /* background-color: red; */
 }
+
 .input-double > div {
-  flex: 1; /* Ensure each input takes equal width */
+  flex: 1;
 }
+
 input,
 select,
 textarea {
-  padding: 15px;
+  padding: 12px;
   border-radius: 5px;
   border: none;
-  margin: 10px 0;
+  margin: 8px 0;
   width: 100%;
+  font-size: 16px;
 }
+
 textarea {
   resize: vertical;
-  min-height: fit-content;
+  min-height: 100px;
 }
+
 .btn-save {
   padding: 10px 20px;
   background-color: var(--color-primary);
@@ -393,19 +407,80 @@ textarea {
   border-radius: 5px;
   cursor: pointer;
   align-self: flex-end;
+  font-size: 16px;
 }
+
 .upload-btn {
   width: 30px;
   height: 30px;
   cursor: pointer;
   border: 1px dashed gray;
-  padding: 30px;
+  padding: 20px;
 }
+
 .error {
   color: red;
   font-size: 12px;
   margin-top: 5px;
   min-height: 20px;
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .edit-house {
+    max-width: 100%;
+    padding: 0 15px;
+    gap: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .input-double {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .input-double > div {
+    flex: none;
+    width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    padding: 10px;
+    font-size: 14px;
+    margin: 6px 0;
+  }
+
+  textarea {
+    min-height: 80px;
+  }
+
+  .btn-save {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .house-image {
+    max-width: 150px;
+  }
+
+  .remove-image-btn {
+    width: 24px;
+    right: -8px;
+    top: -8px;
+  }
+
+  .upload-btn {
+    padding: 15px;
+  }
+
+  .error {
+    font-size: 11px;
+  }
 }
 </style>

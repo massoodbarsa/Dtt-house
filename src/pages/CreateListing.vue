@@ -1,4 +1,3 @@
-```vue
 <script setup>
 import { ref, reactive } from "vue";
 import { useHousesStore } from "../stores/houses";
@@ -50,11 +49,11 @@ const saveHouse = async (houseData, imageFile) => {
 <style scoped>
 .container {
   width: 100%;
-  padding: 30px 0;
+  padding: 30px;
   background-image: url("/img_background@3x.png");
   background-size: 66.66% 100%;
   background-position: right center;
   background-repeat: no-repeat;
+  /* display: flex; */
 }
 </style>
-```
