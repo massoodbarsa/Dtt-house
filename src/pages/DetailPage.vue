@@ -67,12 +67,10 @@ const cancelDelete = () => {
 
 <template>
   <div class="page-wrapper">
-    <div class="back-btn-main">
+    <div class="back-btn-main ,">
       <BackButton text="Back to overview" to="/" />
     </div>
-    <div class="back-btn" @click="router.push(`/`)">
-      <img src="/ic_back_white@3x.png" alt="Back" class="back-icon" />
-    </div>
+
     <div class="container">
       <div class="detail-page">
         <!-- House image with buttons -->
@@ -83,7 +81,25 @@ const cancelDelete = () => {
               alt="House"
               class="main-image"
             />
+
+            <div class="mutation-btns-mobile">
+              <img
+                src="/ic_edit@3x.png"
+                alt="Edit house"
+                class="action-icon"
+                @click="editHouse(house.id)"
+              />
+              <img
+                src="/ic_delete@3x.png"
+                alt="Delete house"
+                class="action-icon"
+                @click="deleteHouse(house)"
+              />
+            </div>
           </section>
+          <div class="back-btn" @click="router.push(`/`)">
+            <img src="/ic_back_white@3x.png" alt="Back" class="back-icon" />
+          </div>
         </div>
 
         <!-- House details -->
@@ -246,6 +262,17 @@ const cancelDelete = () => {
   max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
+
+  flex-wrap: wrap;
+}
+
+.house-list-container {
+  background-color: var(--bg-2);
+  padding: 20px 30px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .detail-page {
@@ -265,18 +292,9 @@ const cancelDelete = () => {
 
 .main-image {
   width: 100%;
-  max-height: 400px;
+  /* max-height: 400px; */
   object-fit: cover;
   border-radius: 5px;
-}
-
-.house-list-container {
-  background-color: var(--bg-2);
-  padding: 20px 30px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
 }
 
 .house-item {
@@ -386,6 +404,16 @@ const cancelDelete = () => {
     width: 100%;
   }
 
+  .house-list-container {
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-top: -50px;
+    z-index: 10;
+    border-radius: 22px 22px 5px 5px;
+  }
+
   .back-btn-main {
     display: none;
   }
@@ -393,10 +421,21 @@ const cancelDelete = () => {
   .back-btn {
     display: block;
     position: absolute;
-    top: 23px;
+    top: 2px;
     left: 10px;
     z-index: 1080;
     padding: 20px;
+  }
+
+  .mutation-btns-mobile {
+    position: absolute;
+    display: flex;
+    top: 20px;
+    right: 10px;
+    gap: 30px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
   }
 
   .back-icon {
@@ -405,14 +444,7 @@ const cancelDelete = () => {
   }
 
   .mutation-btns {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    margin: 0;
-    gap: 15px;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 8px;
-    border-radius: 5px;
+    display: none;
   }
 
   .mutation-btns:hover {
@@ -422,16 +454,6 @@ const cancelDelete = () => {
   .action-icon {
     width: 18px;
     height: 18px;
-  }
-
-  .house-list-container {
-    padding: 15px;
-    width: 100%;
-    box-sizing: border-box;
-
-    margin-top: -50px;
-    z-index: 10;
-    border-radius: 22px 22px 5px 5px;
   }
 
   .recommended {
