@@ -191,7 +191,11 @@ const toggleFavoritesFilter = () => {
       >
         <div class="house-list">
           <section class="house-image">
-            <img :src="house.image" alt="house" style="border-radius: 5px" />
+            <img
+              :src="house.image || '/property-fallback.png'"
+              alt="house"
+              style="border-radius: 5px"
+            />
           </section>
           <section class="house-item">
             <h2>
