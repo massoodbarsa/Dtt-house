@@ -430,7 +430,7 @@ const cancelDelete = () => {
     box-sizing: border-box;
 
     margin-top: -50px;
-    z-index: 1000;
+    z-index: 10;
     border-radius: 22px 22px 5px 5px;
   }
 

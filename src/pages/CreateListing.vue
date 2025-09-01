@@ -40,8 +40,10 @@ const saveHouse = async (houseData, imageFile) => {
 </script>
 
 <template>
-  <BackButton text="Back to review" :to="`/`" />
   <div class="container">
+    <section style="margin-bottom: 20px">
+      <BackButton text="Back to review" :to="`/`" />
+    </section>
     <HouseForm :house="house" @save="saveHouse" />
   </div>
 </template>

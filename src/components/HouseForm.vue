@@ -372,9 +372,9 @@ const saveHouse = () => {
   display: flex;
   align-items: flex-start;
   gap: 30px;
-  justify-content: flex-start;
   width: 100%;
-  /* background-color: red; */
+
+  text-align: left;
 }
 
 .input-double > div {
@@ -432,7 +432,7 @@ textarea {
 
   .title {
     position: absolute;
-    top: 15px;
+    top: 45px;
     margin-bottom: 10px;
   }
 

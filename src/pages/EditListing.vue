@@ -58,8 +58,10 @@ const saveHouse = async (houseData, imageFile) => {
 </script>
 
 <template>
-  <BackButton text="Back to detail page" :to="`/detail-page/${house.id}`" />
   <div class="container">
+    <section style="margin-bottom: 20px">
+      <BackButton text="Back to detail page" :to="`/detail-page/${house.id}`" />
+    </section>
     <span class="error" v-if="errorMessage">{{ errorMessage }}</span>
     <HouseForm
       :house="house"
