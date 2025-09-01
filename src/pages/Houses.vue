@@ -187,14 +187,14 @@ const toggleFavoritesFilter = () => {
         v-for="house in filteredHouses"
         :key="house.id"
         class="house-list-container"
-        @click="router.push(`/detail-page/${house.id}`)"
       >
         <div class="house-list">
           <section class="house-image">
             <img
               :src="house.image || '/property-fallback.png'"
               alt="house"
-              style="border-radius: 5px"
+              style="border-radius: 5px; cursor: pointer"
+              @click="router.push(`/detail-page/${house.id}`)"
             />
           </section>
           <section class="house-item">
@@ -411,7 +411,6 @@ const toggleFavoritesFilter = () => {
   background-color: var(--bg-2);
   padding: 15px;
   border-radius: 5px;
-  cursor: pointer;
 }
 
 .house-list {
