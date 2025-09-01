@@ -136,7 +136,7 @@ const cancelDelete = () => {
                 />
                 <p>{{ house.location.zip }}</p>
               </span>
-              <section class="house-options">
+              <section class="house-options tablet-invisible">
                 <span class="house-options">
                   <img src="/ic_price@3x.png" alt="Price" class="option-icon" />
                   <p>€ {{ house.price.toLocaleString() }}</p>
@@ -413,6 +413,12 @@ const cancelDelete = () => {
 
 .tertiary-text {
   color: var(--color-tertiary);
+}
+
+@media (max-width: 900px) {
+  .tablet-invisible {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
