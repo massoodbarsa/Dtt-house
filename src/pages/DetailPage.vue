@@ -183,13 +183,7 @@ const cancelDelete = () => {
             </section>
           </section>
           <p class="text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            {{ house.description }}
           </p>
         </div>
         <section
@@ -382,5 +376,14 @@ const cancelDelete = () => {
 .text {
   text-align: left;
   line-height: 1.5rem;
+}
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+  }
 }
 </style>
