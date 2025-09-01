@@ -1,15 +1,14 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import BackButton from "../components/BackButton.vue";
 import Modal from "@/components/Modal.vue";
-import { useRouter } from "vue-router";
 
 const store = useHousesStore();
 const route = useRoute();
-const houseId = Number(route.params.id);
 const router = useRouter();
+const houseId = Number(route.params.id);
 
 const showModal = ref(false);
 const houseToDelete = ref(null);
@@ -32,15 +31,11 @@ const house = reactive({
   hasGarage: false,
 });
 
-// Recommended houses (e.g., other houses from the store)
 const recommendedHouses = ref([]);
 
 onMounted(() => {
-  // Load the house by ID
   const found = store.items.find((h) => h.id === houseId);
   if (found) Object.assign(house, found);
-
-  // Load recommended houses (e.g., up to 3 other houses)
   recommendedHouses.value = store.items
     .filter((h) => h.id !== houseId)
     .slice(0, 3);
@@ -57,10 +52,10 @@ const deleteHouse = (house) => {
 
 const confirmDelete = async () => {
   if (houseToDelete.value) {
-    await store.deleteHouse(houseToDelete.value.id); // delete from API
+    await store.deleteHouse(houseToDelete.value.id);
     houseToDelete.value = null;
     showModal.value = false;
-    router.push(`/`);
+    router.push("/");
   }
 };
 
@@ -71,215 +66,148 @@ const cancelDelete = () => {
 </script>
 
 <template>
-  <div style="margin-top: 10px; margin-bottom: 30px">
+  <div class="page-wrapper">
     <BackButton text="Back to overview" to="/" />
-  </div>
-  <div class="container">
-    <div class="detail-page">
-      <!-- House information -->
-      <div class="house-content">
-        <!-- Large house photo -->
-        <section class="house-image">
-          <img
-            :src="house.image || '/placeholder.png'"
-            alt="House"
-            style="
-              width: 100%;
-              max-height: 400px;
-              object-fit: cover;
-              border-radius: 5px;
-            "
-          />
-        </section>
+    <div class="container">
+      <div class="detail-page">
+        <!-- House image with buttons -->
+        <div class="house-content">
+          <section class="house-image">
+            <img
+              :src="house.image || '/placeholder.png'"
+              alt="House"
+              class="main-image"
+            />
+            <div class="mutation-btns">
+              <img
+                src="/ic_edit@3x.png"
+                alt="Edit house"
+                class="action-icon"
+                @click="editHouse(house.id)"
+              />
+              <img
+                src="/ic_delete@3x.png"
+                alt="Delete house"
+                class="action-icon"
+                @click="deleteHouse(house)"
+              />
+            </div>
+          </section>
+        </div>
+
+        <!-- House details -->
+        <div class="house-list-container">
+          <div class="house-info">
+            <section class="house-item">
+              <h1>
+                {{ house.location.street }} {{ house.location.houseNumber }}
+                {{ house.location.houseNumberAddition }}
+              </h1>
+              <span class="house-options">
+                <img
+                  src="/ic_location@3x.png"
+                  alt="Location"
+                  class="option-icon"
+                />
+                <p>{{ house.location.zip }}</p>
+              </span>
+              <section class="house-options">
+                <span class="house-options">
+                  <img src="/ic_price@3x.png" alt="Price" class="option-icon" />
+                  <p>€ {{ house.price.toLocaleString() }}</p>
+                </span>
+                <span class="house-options">
+                  <img src="/ic_size@3x.png" alt="Size" class="option-icon" />
+                  <p>{{ house.size }} m²</p>
+                </span>
+                <span class="house-options">
+                  <img
+                    src="/ic_construction_date@3x.png"
+                    alt="Construction Year"
+                    class="option-icon"
+                  />
+                  <p>Built in {{ house.constructionYear }}</p>
+                </span>
+              </section>
+              <section class="house-options">
+                <span class="house-options">
+                  <img
+                    src="/ic_bed@3x.png"
+                    alt="Bedrooms"
+                    class="option-icon"
+                  />
+                  <p>{{ house.rooms.bedrooms }}</p>
+                </span>
+                <span class="house-options">
+                  <img
+                    src="/ic_bath@3x.png"
+                    alt="Bathrooms"
+                    class="option-icon"
+                  />
+                  <p>{{ house.rooms.bathrooms }}</p>
+                </span>
+                <span class="house-options">
+                  <img
+                    src="/ic_garage@3x.png"
+                    alt="Garage"
+                    class="option-icon"
+                  />
+                  <p>{{ house.hasGarage ? "Yes" : "No" }}</p>
+                </span>
+              </section>
+              <p class="text">{{ house.description }}</p>
+            </section>
+          </div>
+        </div>
       </div>
 
-      <!-- list info -->
-
-      <div class="house-list-container">
-        <div>
-          <section class="house-item" style="gap: 20px">
-            <h1 style="margin: 10px 0">
-              {{ house.location.street }} {{ house.location.houseNumber }}
-              {{ house.location.houseNumberAddition }}
-            </h1>
-
-            <span class="house-options" style="gap: 10px">
-              <img
-                src="/ic_location@3x.png"
-                alt="search"
-                width="25"
-                height="25"
-                style="border-radius: 5px"
-              />
-              <p>{{ house.location.zip }}</p></span
-            >
-            <!--  -->
-            <section class="house-options" style="gap: 30px">
+      <!-- Recommended houses -->
+      <aside class="recommended">
+        <h2>Recommended for you</h2>
+        <div
+          v-for="recHouse in recommendedHouses"
+          :key="recHouse.id"
+          class="house-list"
+        >
+          <section>
+            <img
+              :src="recHouse.image || '/placeholder.png'"
+              alt="Recommended house"
+              class="recommended-image"
+              @click="$router.push(`/house/${recHouse.id}`)"
+            />
+          </section>
+          <section class="house-item">
+            <h4>
+              {{ recHouse.location.street }} {{ recHouse.location.houseNumber }}
+              {{ recHouse.location.houseNumberAddition }}
+            </h4>
+            <p>€ {{ recHouse.price.toLocaleString() }}</p>
+            <p class="tertiary-text">
+              {{ recHouse.location.zip }} {{ recHouse.location.city }}
+            </p>
+            <section class="house-options">
               <span class="house-options">
-                <img
-                  src="/ic_price@3x.png"
-                  alt="search"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
-                />
-                <p>{{ house.price }}</p></span
-              >
-              <span class="house-options">
-                <img
-                  src="/ic_size@3x.png"
-                  alt="search"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
-                />
-                <p>{{ house.size }} m2</p></span
-              >
-              <span class="house-options">
-                <img
-                  src="/ic_construction_date@3x.png"
-                  alt="search"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
-                />
-                <p>Built in {{ house.constructionYear }}</p></span
-              >
-            </section>
-
-            <!--  -->
-            <section class="house-options" style="gap: 30px">
-              <span class="house-options">
-                <img
-                  src="/ic_bed@3x.png"
-                  alt="search"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
-                />
-                <p>{{ house.rooms.bedrooms }}</p></span
-              >
+                <img src="/ic_bed@3x.png" alt="Bedrooms" class="option-icon" />
+                <p>{{ recHouse.rooms.bedrooms }}</p>
+              </span>
               <span class="house-options">
                 <img
                   src="/ic_bath@3x.png"
-                  alt="search"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
+                  alt="Bathrooms"
+                  class="option-icon"
                 />
-                <p>{{ house.rooms.bathrooms }}</p></span
-              >
+                <p>{{ recHouse.rooms.bathrooms }}</p>
+              </span>
               <span class="house-options">
-                <img
-                  src="/ic_garage@3x.png"
-                  alt="search"
-                  width="25"
-                  height="25"
-                  style="border-radius: 5px"
-                />
-
-                <p>{{ house.hasGarage === true ? "Yes" : "No" }}</p></span
-              >
+                <img src="/ic_size@3x.png" alt="Size" class="option-icon" />
+                <p>{{ recHouse.size }} m²</p>
+              </span>
             </section>
           </section>
-          <p class="text">
-            {{ house.description }}
-          </p>
         </div>
-        <section
-          style="
-            align-self: flex-start;
-            margin: 20px 10px;
-            gap: 20px;
-            display: flex;
-          "
-        >
-          <img
-            src="/ic_edit@3x.png"
-            alt="edit"
-            width="20"
-            @click="editHouse(house.id)"
-            style="cursor: pointer"
-          />
-          <img
-            src="/ic_delete@3x.png"
-            alt="delete"
-            width="20"
-            @click="deleteHouse(house)"
-            style="cursor: pointer"
-          />
-        </section>
-      </div>
+      </aside>
     </div>
-
-    <!-- Recommended houses column -->
-    <!-- Recommended houses column -->
-    <!-- Recommended houses column -->
-    <!-- Recommended houses column -->
-    <!-- Recommended houses column -->
-    <!-- Recommended houses column -->
-    <aside class="recommended">
-      <h2 style="text-align: left; margin-top: 0">Recommended for you</h2>
-      <div
-        class="house-list"
-        v-for="recHouse in recommendedHouses"
-        :key="recHouse.id"
-      >
-        <section>
-          <img
-            :src="recHouse.image || '/placeholder.png'"
-            alt="Recommended house"
-            width="120"
-            height="120"
-            style="border-radius: 5px; cursor: pointer"
-            @click="$router.push(`/house/${recHouse.id}`)"
-          />
-        </section>
-        <section class="house-item">
-          <h4>
-            {{ recHouse.location.street }}
-            {{ recHouse.location.houseNumber }}
-            {{ recHouse.location.houseNumberAddition }}
-          </h4>
-          <p>€ {{ recHouse.price }}</p>
-          <p style="color: var(--color-tertiary)">
-            {{ recHouse.location.zip }} {{ recHouse.location.city }}
-          </p>
-          <section class="house-options" style="gap: 20px">
-            <span class="house-options">
-              <img
-                src="/ic_bed@3x.png"
-                alt="Bedrooms"
-                width="25"
-                height="25"
-                style="border-radius: 5px"
-              />
-              <p>{{ recHouse.rooms.bedrooms }}</p>
-            </span>
-            <span class="house-options">
-              <img
-                src="/ic_bath@3x.png"
-                alt="Bathrooms"
-                width="25"
-                height="25"
-                style="border-radius: 5px"
-              />
-              <p>{{ recHouse.rooms.bathrooms }}</p>
-            </span>
-            <span class="house-options">
-              <img
-                src="/ic_size@3x.png"
-                alt="Size"
-                width="25"
-                height="25"
-                style="border-radius: 5px"
-              />
-              <p>{{ recHouse.size }} m²</p>
-            </span>
-          </section>
-        </section>
-      </div>
-    </aside>
     <Modal
       :show="showModal"
       title="Delete House"
@@ -291,99 +219,174 @@ const cancelDelete = () => {
 </template>
 
 <style scoped>
+.page-wrapper {
+  margin: 10px 0 30px;
+}
+
 .container {
   display: flex;
   justify-content: space-between;
   gap: 50px;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 .detail-page {
+  flex: 2;
   display: flex;
   flex-direction: column;
-  flex: 2;
+  gap: 20px;
 }
 
-.house-list-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /* gap: 30px; */
-
-  background-color: var(--bg-2);
-  padding: 5px 30px;
-  border-radius: 5px;
+.house-content {
+  position: relative;
 }
+
 .house-image {
   width: 100%;
 }
-.house-content {
-  display: flex;
-  gap: 40px;
+
+.main-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 5px;
 }
-.house-info {
-  flex: 1;
+
+.house-list-container {
+  background-color: var(--bg-2);
+  padding: 20px 30px;
+  border-radius: 5px;
+}
+
+.house-item {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 10px;
 }
 
-/*  */
-.description {
+.house-item h1 {
   margin: 10px 0;
+  font-size: 24px;
 }
+
 .house-options {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
-.house-options span {
+
+.house-options > span {
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
-/*  */
+.option-icon {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+}
+
+.text {
+  text-align: left;
+  line-height: 1.5rem;
+  margin: 10px 0;
+}
+
+.mutation-btns {
+  display: flex;
+  gap: 20px;
+  align-self: flex-start;
+  margin: 20px 10px;
+}
+
+.action-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.action-icon:hover {
+  opacity: 0.8;
+}
+
 .recommended {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  /* padding: 10px; */
+}
+
+.recommended h2 {
+  text-align: left;
+  margin: 0;
+  font-size: 20px;
 }
 
 .house-list {
   display: flex;
   gap: 15px;
-  justify-content: flex-start;
   background-color: #fff;
   padding: 10px;
-  /* background-color: red; */
+  border-radius: 5px;
+  width: 100%;
 }
-.house-item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
-  /* background-color: red; */
+
+.recommended-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 5px;
+  cursor: pointer;
 }
+
 .house-item h4 {
   margin: 0;
   font-size: 16px;
 }
+
 .house-item p {
   margin: 2px 0;
 }
 
-.text {
-  text-align: left;
-  line-height: 1.5rem;
+.tertiary-text {
+  color: var(--color-tertiary);
 }
+
+/* Mobile mode */
 @media (max-width: 768px) {
   .container {
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
+  }
+
+  .mutation-btns {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    margin: 0;
+    gap: 15px;
+    background: rgb(255, 255, 255);
+    padding: 8px;
+    border-radius: 5px;
+  }
+
+  .action-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .house-list-container {
+    padding: 15px;
+  }
+
+  .recommended {
+    width: 100%;
   }
 }
 </style>
