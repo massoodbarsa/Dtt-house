@@ -343,12 +343,7 @@ const saveHouse = () => {
   align-items: flex-start;
   gap: 15px;
   padding: 0 20px;
-  /* background-color: red; */
 }
-
-/* h1 {
-  font-size: 24px;
-} */
 
 .house-image {
   width: 100%;

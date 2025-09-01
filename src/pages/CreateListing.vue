@@ -56,4 +56,16 @@ const saveHouse = async (houseData, imageFile) => {
   background-repeat: no-repeat;
   /* display: flex; */
 }
+@media (max-width: 768px) {
+  .container {
+    /* padding: 15px; */
+    background-size: 100% 50%;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    background-color: var(--bg-1);
+  }
+}
 </style>
