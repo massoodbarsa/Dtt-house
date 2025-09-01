@@ -114,8 +114,8 @@ import Header from "@/components/Header.vue";
   }
 
   .image-icon {
-    width: 18px;
-    height: 18px;
+    width: 25px;
+    height: 25px;
   }
 }
 
