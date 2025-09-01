@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, onMounted } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
 import { useHousesStore } from "../stores/houses";
 import { useRoute, useRouter } from "vue-router";
 import BackButton from "../components/BackButton.vue";
@@ -32,6 +32,19 @@ const house = reactive({
 });
 
 const recommendedHouses = ref([]);
+
+// component doesn’t re-render because Vue Router reuses the same component instance for the same route path
+watch(
+  () => route.params.id,
+  (newId) => {
+    const found = store.items.find((h) => h.id === Number(newId));
+    if (found) Object.assign(house, found);
+
+    recommendedHouses.value = store.items
+      .filter((h) => h.id !== Number(newId))
+      .slice(0, 3);
+  }
+);
 
 onMounted(() => {
   const found = store.items.find((h) => h.id === houseId);
@@ -191,12 +204,13 @@ const cancelDelete = () => {
           class="house-list"
         >
           <section>
-            <img
-              :src="recHouse.image || '/placeholder.png'"
-              alt="Recommended house"
-              class="recommended-image"
-              @click="$router.push(`/house/${recHouse.id}`)"
-            />
+            <router-link :to="`/detail-page/${recHouse.id}`">
+              <img
+                :src="recHouse.image || '/placeholder.png'"
+                alt="Recommended house"
+                class="recommended-image"
+              />
+            </router-link>
           </section>
           <section class="house-item">
             <h4>
