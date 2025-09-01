@@ -33,25 +33,30 @@ const house = reactive({
 
 const recommendedHouses = ref([]);
 
-// component doesn’t re-render because Vue Router reuses the same component instance for the same route path
+// Watch for route params change to update house and recommended houses
 watch(
   () => route.params.id,
   (newId) => {
     const found = store.items.find((h) => h.id === Number(newId));
-    if (found) Object.assign(house, found);
-
-    recommendedHouses.value = store.items
-      .filter((h) => h.id !== Number(newId))
-      .slice(0, 3);
+    if (found) {
+      Object.assign(house, found);
+    }
   }
 );
 
 onMounted(() => {
   const found = store.items.find((h) => h.id === houseId);
-  if (found) Object.assign(house, found);
-  recommendedHouses.value = store.items
-    .filter((h) => h.id !== houseId)
-    .slice(0, 3);
+  if (found) {
+    Object.assign(house, found);
+    // Filter recommended houses by matching city, excluding the current house
+    recommendedHouses.value = store.items
+      .filter(
+        (h) =>
+          h.id !== houseId &&
+          h.location.city.toLowerCase() === found.location.city.toLowerCase()
+      )
+      .slice(0, 3);
+  }
 });
 
 const editHouse = (id) => {
