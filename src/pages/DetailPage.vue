@@ -415,6 +415,23 @@ const cancelDelete = () => {
   color: var(--color-tertiary);
 }
 
+@media (max-width: 1200px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 0 10px;
+    width: 100%;
+  }
+
+  .recommended {
+    width: 100%;
+  }
+  /* .tablet-invisible {
+    display: none;
+  } */
+}
+
 @media (max-width: 900px) {
   .tablet-invisible {
     display: none;

@@ -133,6 +133,10 @@ button:focus-visible {
     font-size: var(--button-mobile);
   }
 
+  p {
+    font-size: 14px;
+  }
+
   .title {
     font-size: 26px;
 
