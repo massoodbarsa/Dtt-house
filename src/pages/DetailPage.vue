@@ -263,10 +263,8 @@ const cancelDelete = () => {
   justify-content: space-between;
   gap: 50px;
   position: relative;
-  max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
-
   flex-wrap: wrap;
 }
 
@@ -296,7 +294,6 @@ const cancelDelete = () => {
 
 .main-image {
   width: 100%;
-  /* max-height: 400px; */
   object-fit: cover;
   border-radius: 5px;
 }
