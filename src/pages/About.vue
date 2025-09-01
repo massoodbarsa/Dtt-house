@@ -2,7 +2,7 @@
   <section class="container">
     <!-- Mobile-only header -->
     <div class="mobile-header">
-      <h1>About</h1>
+      <h1 class="title">About</h1>
     </div>
 
     <!-- Desktop content remains unchanged -->

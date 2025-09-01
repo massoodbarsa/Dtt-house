@@ -54,6 +54,10 @@ h2 {
   color: var(--color-text-primary);
 }
 
+p {
+  font-family: var(--font-primary);
+}
+
 /* ---------------- BUTTONS ---------------- */
 button {
   border-radius: 5px; /* consistent with component styles */
