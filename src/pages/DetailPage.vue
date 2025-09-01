@@ -428,6 +428,10 @@ const cancelDelete = () => {
     padding: 15px;
     width: 100%;
     box-sizing: border-box;
+
+    margin-top: -50px;
+    z-index: 1000;
+    border-radius: 22px 22px 5px 5px;
   }
 
   .recommended {
