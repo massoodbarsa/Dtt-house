@@ -198,10 +198,10 @@ const toggleFavoritesFilter = () => {
             />
           </section>
           <section class="house-item">
-            <h2>
+            <h3>
               {{ house.location.street }} {{ house.location.houseNumber }}
               {{ house.location.houseNumberAddition }}
-            </h2>
+            </h3>
             <p>€ {{ house.price }}</p>
             <p style="color: var(--color-tertiary)">
               {{ house.location.zip }} {{ house.location.city }}
@@ -434,8 +434,8 @@ const toggleFavoritesFilter = () => {
   align-items: flex-start;
 }
 
-.house-item h2 {
-  font-size: 18px;
+.house-item h3 {
+  /* font-size: 18px; */
   margin: 0 0 5px 0;
 }
 
@@ -592,12 +592,14 @@ const toggleFavoritesFilter = () => {
     aspect-ratio: 1 / 1;
   }
 
-  .house-item h2 {
-    font-size: 16px;
+  .house-item h3 {
+    font-size: 12px;
+    text-align: left;
   }
 
   .house-item p {
     font-size: 14px;
+    text-align: left;
   }
 
   .house-options {
