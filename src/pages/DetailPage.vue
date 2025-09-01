@@ -70,12 +70,8 @@ const cancelDelete = () => {
     <div class="back-btn-main">
       <BackButton text="Back to overview" to="/" />
     </div>
-    <div class="back-btn">
-      <img
-        src="/ic_back_white@3x.png"
-        alt="Back"
-        style="width: 30px; height: 30px; padding-top: 1px; cursor: pointer"
-      />
+    <div class="back-btn" @click="router.push(`/`)">
+      <img src="/ic_back_white@3x.png" alt="Back" class="back-icon" />
     </div>
     <div class="container">
       <div class="detail-page">
@@ -230,6 +226,8 @@ const cancelDelete = () => {
 <style scoped>
 .page-wrapper {
   margin: 10px 0 30px;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .back-btn-main {
@@ -247,6 +245,7 @@ const cancelDelete = () => {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
 
 .detail-page {
@@ -277,6 +276,7 @@ const cancelDelete = () => {
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .house-item {
@@ -354,6 +354,7 @@ const cancelDelete = () => {
   padding: 10px;
   border-radius: 5px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .recommended-image {
@@ -376,12 +377,13 @@ const cancelDelete = () => {
   color: var(--color-tertiary);
 }
 
-/* Mobile mode */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    padding: 0 10px;
+    width: 100%;
   }
 
   .back-btn-main {
@@ -389,11 +391,17 @@ const cancelDelete = () => {
   }
 
   .back-btn {
-    margin: 20px 0;
-    /* position: absolute; */
-    top: 10px;
-    z-index: 1000;
-    background: rgb(255, 255, 255);
+    display: block;
+    position: absolute;
+    top: 23px;
+    left: 10px;
+    z-index: 1080;
+    padding: 20px;
+  }
+
+  .back-icon {
+    width: 24px;
+    height: 24px;
   }
 
   .mutation-btns {
@@ -402,9 +410,13 @@ const cancelDelete = () => {
     right: 10px;
     margin: 0;
     gap: 15px;
-    background: rgb(255, 255, 255);
+    background: rgba(255, 255, 255, 0.8);
     padding: 8px;
     border-radius: 5px;
+  }
+
+  .mutation-btns:hover {
+    opacity: 0.8;
   }
 
   .action-icon {
@@ -414,10 +426,29 @@ const cancelDelete = () => {
 
   .house-list-container {
     padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   .recommended {
     width: 100%;
+  }
+
+  .main-image {
+    max-height: 300px;
+  }
+
+  .house-item h1 {
+    font-size: 20px;
+  }
+
+  .recommended-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .house-list {
+    padding: 8px;
   }
 }
 </style>
