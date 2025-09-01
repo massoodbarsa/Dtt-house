@@ -1,4 +1,3 @@
-```vue
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
@@ -17,15 +16,22 @@ const sortOrder = ref("asc"); // asc or desc
 const showModal = ref(false);
 const houseToDelete = ref(null);
 
+// Favorites filter state
+const showFavoritesOnly = ref(false);
+
 const clearSearch = () => {
   searchQuery.value = "";
 };
 
 // Compute filtered and sorted houses
 const filteredHouses = computed(() => {
-  let houses = store.items.filter((house) =>
-    house.location.city.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  let houses = showFavoritesOnly.value
+    ? store.favorites
+    : store.items.filter((house) =>
+        house.location.city
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase())
+      );
 
   if (sortCriterion.value) {
     houses = [...houses].sort((a, b) => {
@@ -87,6 +93,11 @@ const toggleFavorite = (house) => {
   } else {
     store.addFavorite(house);
   }
+};
+
+// Toggle favorites filter
+const toggleFavoritesFilter = () => {
+  showFavoritesOnly.value = !showFavoritesOnly.value;
 };
 </script>
 
@@ -151,6 +162,14 @@ const toggleFavorite = (house) => {
           {{
             sortCriterion === "size" ? (sortOrder === "asc" ? "↑" : "↓") : ""
           }}
+        </button>
+        <button
+          class="btn favorites-btn"
+          :class="{ active: showFavoritesOnly }"
+          @click="toggleFavoritesFilter"
+          title="Toggle Favorites Filter"
+        >
+          <span class="favorites-text">Favorites</span>
         </button>
       </section>
     </div>
@@ -268,12 +287,6 @@ const toggleFavorite = (house) => {
   gap: 10px;
 }
 
-.controls-row {
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
 .btn {
   font-size: var(--button-desktop, 16px);
   height: 48px;
@@ -307,7 +320,8 @@ const toggleFavorite = (house) => {
   color: white;
 }
 
-.create-img {
+.create-img,
+.favorites-img {
   width: 20px;
   height: 20px;
 }
@@ -320,7 +334,8 @@ const toggleFavorite = (house) => {
   display: none;
 }
 
-.create-text {
+.create-text,
+.favorites-text {
   display: inline;
 }
 
@@ -374,8 +389,21 @@ const toggleFavorite = (house) => {
   width: 150px;
 }
 
-.toggle-btns .btn:last-child {
+.toggle-btns .btn:nth-child(2) {
+  border-radius: 0;
+}
+
+.toggle-btns .favorites-btn {
   border-radius: 0 5px 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 15px;
+}
+
+.favorites-btn.active {
+  background-color: rgb(255, 0, 136);
 }
 
 .house-list-container {
@@ -409,7 +437,6 @@ const toggleFavorite = (house) => {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  /* flex: 1; */
 }
 
 .house-item h2 {
@@ -461,7 +488,7 @@ const toggleFavorite = (house) => {
 
   .header-row {
     flex-direction: row;
-    justify-content: center; /* Center the content (h1) */
+    justify-content: center;
     align-items: center;
     position: relative;
   }
@@ -481,7 +508,6 @@ const toggleFavorite = (house) => {
     justify-content: center;
   }
 
-  /* Rest of your existing mobile styles */
   .create-text {
     display: none;
   }
@@ -502,11 +528,7 @@ const toggleFavorite = (house) => {
   .controls-row {
     flex-direction: column;
     align-items: stretch;
-  }
-
-  .search-wrapper {
-    max-width: 100%;
-    width: 100%;
+    position: relative;
   }
 
   .toggle-btns {
@@ -519,6 +541,30 @@ const toggleFavorite = (house) => {
     padding: 0 10px;
     font-size: 14px;
     height: 40px;
+  }
+
+  .toggle-btns .favorites-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    min-width: unset;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .toggle-btns .favorites-text {
+    display: none;
+  }
+
+  .toggle-btns .favorites-img {
+    width: 24px;
+    height: 24px;
   }
 
   .house-list-container {
@@ -561,11 +607,6 @@ const toggleFavorite = (house) => {
 
   .empty-state img {
     width: 150px;
-  }
-
-  .create-img {
-    width: 20px;
-    height: 20px;
   }
 
   .house-image img {
