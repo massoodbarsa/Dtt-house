@@ -43,7 +43,7 @@ const confirmAction = () => emit("confirm");
   background-color: white;
   padding: 40px 150px;
   border-radius: 8px;
-  width: 400px;
+  min-width: 400px;
   text-align: center;
   margin-top: 200px;
 }
@@ -52,7 +52,8 @@ const confirmAction = () => emit("confirm");
   margin-top: 70px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   gap: 30px;
 }
 
@@ -61,6 +62,7 @@ const confirmAction = () => emit("confirm");
   cursor: pointer;
   border: none;
   border-radius: 8px;
+  width: 200px;
 }
 
 .btn.cancel {
