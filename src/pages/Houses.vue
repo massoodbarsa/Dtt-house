@@ -169,7 +169,7 @@ const toggleFavoritesFilter = () => {
           @click="toggleFavoritesFilter"
           title="Toggle Favorites Filter"
         >
-          <span class="favorites-text">Favorites</span>
+          Favorites
         </button>
       </section>
     </div>
@@ -320,8 +320,7 @@ const toggleFavoritesFilter = () => {
   color: white;
 }
 
-.create-img,
-.favorites-img {
+.create-img {
   width: 20px;
   height: 20px;
 }
@@ -334,8 +333,7 @@ const toggleFavoritesFilter = () => {
   display: none;
 }
 
-.create-text,
-.favorites-text {
+.create-text {
   display: inline;
 }
 
@@ -386,7 +384,6 @@ const toggleFavoritesFilter = () => {
 
 .toggle-btns .btn:first-child {
   border-radius: 5px 0 0 5px;
-  width: 150px;
 }
 
 .toggle-btns .btn:nth-child(2) {
@@ -395,11 +392,6 @@ const toggleFavoritesFilter = () => {
 
 .toggle-btns .favorites-btn {
   border-radius: 0 5px 5px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 0 15px;
 }
 
 .favorites-btn.active {
@@ -528,7 +520,6 @@ const toggleFavoritesFilter = () => {
   .controls-row {
     flex-direction: column;
     align-items: stretch;
-
     position: relative;
   }
 
@@ -540,6 +531,7 @@ const toggleFavoritesFilter = () => {
 
   .toggle-btns {
     width: 100%;
+    display: flex;
     justify-content: space-between;
   }
 
@@ -548,30 +540,23 @@ const toggleFavoritesFilter = () => {
     padding: 0 10px;
     font-size: 14px;
     height: 40px;
+    width: 33.33%; /* Equal width for all toggle buttons */
+  }
+
+  .toggle-btns .btn:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+
+  .toggle-btns .btn:nth-child(2) {
+    border-radius: 0;
   }
 
   .toggle-btns .favorites-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-    min-width: unset;
-    padding: 0;
-    background-color: transparent;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 0 5px 5px 0;
   }
 
-  .toggle-btns .favorites-text {
-    display: none;
-  }
-
-  .toggle-btns .favorites-img {
-    width: 24px;
-    height: 24px;
+  .toggle-btns .favorites-btn.active {
+    background-color: rgb(255, 0, 136);
   }
 
   .house-list-container {
