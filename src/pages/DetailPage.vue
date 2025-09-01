@@ -250,6 +250,10 @@ const cancelDelete = () => {
   margin-bottom: 20px;
 }
 
+.mutation-btns-mobile {
+  display: none;
+}
+
 .back-btn {
   display: none;
 }
