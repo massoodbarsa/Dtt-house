@@ -26,7 +26,7 @@
     <div class="logo-section">
       <img src="/img_logo_dtt@3x.png" alt="Logo" class="logo" />
       <section class="logo-text">
-        <p>By DTT</p>
+        <p style="margin: 0">By DTT</p>
         <a href="https://www.d-tt.nl" target="_blank" rel="noopener noreferrer">
           www.d-tt.nl
         </a>
@@ -50,7 +50,7 @@
 
 .text {
   text-align: left;
-  line-height: 2rem;
+  line-height: 1.5rem;
 }
 
 .logo-section {
@@ -65,11 +65,6 @@
   height: 80px;
 }
 
-.logo-text a {
-  color: blue;
-  text-decoration: underline;
-}
-
 /* Mobile-specific styles */
 @media screen and (max-width: 768px) {
   /* Mobile-only header */
@@ -80,8 +75,13 @@
   }
 
   /* Stack logo section vertically */
+
+  .logo {
+    width: 100px;
+    height: 40px;
+  }
+
   .logo-section {
-    /* flex-direction: column; */
     gap: 1rem;
   }
 
