@@ -475,6 +475,19 @@ const toggleFavoritesFilter = () => {
   width: 20px;
   height: 20px;
 }
+@media (max-width: 1000px) {
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
 
 @media (max-width: 768px) {
   .home {
