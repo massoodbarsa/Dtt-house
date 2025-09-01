@@ -116,7 +116,7 @@ button:focus-visible {
 /* ---------------- Title---------------- */
 
 .title {
-  font-size: 32 px;
+  font-size: 34px;
 }
 
 @media (max-width: 768px) {
@@ -129,16 +129,13 @@ button:focus-visible {
   button {
     font-size: var(--button-mobile);
   }
-}
-/* ---------------- RESPONSIVE FONTS ---------------- */
-@media (max-width: 768px) {
-  h1 {
-    font-size: var(--h1-mobile);
-  }
-  h2 {
-    font-size: var(--h2-mobile);
-  }
-  button {
-    font-size: var(--button-mobile);
+
+  .title {
+    font-size: 26px;
+
+    align-self: center;
+
+    font-family: var(--font-primary);
+    font-weight: bold;
   }
 }

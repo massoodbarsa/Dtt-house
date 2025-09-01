@@ -84,7 +84,7 @@ const sortHouses = (criterion) => {
 <template>
   <section class="home">
     <div class="row header-row">
-      <h1>Houses</h1>
+      <h1 class="title">Houses</h1>
       <button
         class="btn create-btn"
         @click="createListing"

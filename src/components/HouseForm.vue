@@ -196,7 +196,9 @@ const saveHouse = () => {
 
 <template>
   <div class="edit-house">
-    <h1>{{ isEditMode ? "Edit listing" : "Create listing" }}</h1>
+    <h1 class="title">
+      {{ isEditMode ? "Edit listing" : "Create listing" }}
+    </h1>
     <div class="form-group">
       <label>Street name</label>
       <input placeholder="Enter street name" v-model="house.location.street" />
@@ -344,9 +346,9 @@ const saveHouse = () => {
   /* background-color: red; */
 }
 
-h1 {
+/* h1 {
   font-size: 24px;
-}
+} */
 
 .house-image {
   width: 100%;
@@ -433,8 +435,10 @@ textarea {
     gap: 10px;
   }
 
-  h1 {
-    font-size: 20px;
+  .title {
+    position: absolute;
+    top: 15px;
+    margin-bottom: 10px;
   }
 
   .input-double {
