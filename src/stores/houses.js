@@ -6,6 +6,7 @@ export const useHousesStore = defineStore("houses", {
     items: [],
     isLoading: false,
     error: null,
+    favorites: [],
   }),
 
   actions: {
@@ -143,6 +144,17 @@ export const useHousesStore = defineStore("houses", {
         }
         throw err;
       }
+    },
+
+    addFavorite(house) {
+      // Add house to favorites if not already present
+      if (!this.favorites.some((fav) => fav.id === house.id)) {
+        this.favorites.push(house);
+      }
+    },
+    removeFavorite(id) {
+      // Remove house from favorites by ID
+      this.favorites = this.favorites.filter((fav) => fav.id !== id);
     },
   },
 });

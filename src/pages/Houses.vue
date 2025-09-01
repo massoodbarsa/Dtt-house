@@ -79,6 +79,15 @@ const sortHouses = (criterion) => {
     sortOrder.value = "asc";
   }
 };
+
+// Toggle favorite status
+const toggleFavorite = (house) => {
+  if (store.favorites.some((fav) => fav.id === house.id)) {
+    store.removeFavorite(house.id);
+  } else {
+    store.addFavorite(house);
+  }
+};
 </script>
 
 <template>
@@ -201,6 +210,17 @@ const sortHouses = (criterion) => {
           </section>
         </div>
         <section class="house-actions">
+          <img
+            :src="
+              store.favorites.some((fav) => fav.id === house.id)
+                ? '/heart_668687.png'
+                : '/heart_3916769.png'
+            "
+            alt="favorite"
+            width="24"
+            @click.stop="toggleFavorite(house)"
+            style="cursor: pointer"
+          />
           <img
             src="/ic_edit@3x.png"
             alt="edit"
