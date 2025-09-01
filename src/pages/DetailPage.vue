@@ -95,7 +95,7 @@ const cancelDelete = () => {
         <div class="house-content">
           <section class="house-image">
             <img
-              :src="house.image || '/placeholder.png'"
+              :src="house.image || '/property-fallback.png'"
               alt="House"
               class="main-image"
             />
@@ -201,7 +201,7 @@ const cancelDelete = () => {
       </div>
 
       <!-- Recommended houses -->
-      <aside class="recommended">
+      <aside v-if="recommendedHouses.length > 0" class="recommended">
         <h2>Recommended for you</h2>
         <div
           v-for="recHouse in recommendedHouses"
