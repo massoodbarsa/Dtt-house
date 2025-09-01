@@ -67,7 +67,16 @@ const cancelDelete = () => {
 
 <template>
   <div class="page-wrapper">
-    <BackButton text="Back to overview" to="/" />
+    <div class="back-btn-main">
+      <BackButton text="Back to overview" to="/" />
+    </div>
+    <div class="back-btn">
+      <img
+        src="/ic_back_white@3x.png"
+        alt="Back"
+        style="width: 30px; height: 30px; padding-top: 1px; cursor: pointer"
+      />
+    </div>
     <div class="container">
       <div class="detail-page">
         <!-- House image with buttons -->
@@ -78,20 +87,6 @@ const cancelDelete = () => {
               alt="House"
               class="main-image"
             />
-            <div class="mutation-btns">
-              <img
-                src="/ic_edit@3x.png"
-                alt="Edit house"
-                class="action-icon"
-                @click="editHouse(house.id)"
-              />
-              <img
-                src="/ic_delete@3x.png"
-                alt="Delete house"
-                class="action-icon"
-                @click="deleteHouse(house)"
-              />
-            </div>
           </section>
         </div>
 
@@ -158,6 +153,20 @@ const cancelDelete = () => {
               <p class="text">{{ house.description }}</p>
             </section>
           </div>
+          <div class="mutation-btns">
+            <img
+              src="/ic_edit@3x.png"
+              alt="Edit house"
+              class="action-icon"
+              @click="editHouse(house.id)"
+            />
+            <img
+              src="/ic_delete@3x.png"
+              alt="Delete house"
+              class="action-icon"
+              @click="deleteHouse(house)"
+            />
+          </div>
         </div>
       </div>
 
@@ -223,6 +232,14 @@ const cancelDelete = () => {
   margin: 10px 0 30px;
 }
 
+.back-btn-main {
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  display: none;
+}
+
 .container {
   display: flex;
   justify-content: space-between;
@@ -258,6 +275,8 @@ const cancelDelete = () => {
   background-color: var(--bg-2);
   padding: 20px 30px;
   border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .house-item {
@@ -363,6 +382,18 @@ const cancelDelete = () => {
     flex-direction: column;
     align-items: center;
     gap: 30px;
+  }
+
+  .back-btn-main {
+    display: none;
+  }
+
+  .back-btn {
+    margin: 20px 0;
+    /* position: absolute; */
+    top: 10px;
+    z-index: 1000;
+    background: rgb(255, 255, 255);
   }
 
   .mutation-btns {
