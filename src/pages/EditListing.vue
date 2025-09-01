@@ -1,4 +1,3 @@
-```vue
 <script setup>
 import { ref, reactive, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
@@ -59,10 +58,8 @@ const saveHouse = async (houseData, imageFile) => {
 </script>
 
 <template>
+  <BackButton text="Back to detail page" :to="`/detail-page/${house.id}`" />
   <div class="container">
-    <div style="margin-top: 10px; margin-bottom: 30px">
-      <BackButton text="Back to detail page" :to="`/detail-page/${house.id}`" />
-    </div>
     <span class="error" v-if="errorMessage">{{ errorMessage }}</span>
     <HouseForm
       :house="house"
@@ -76,7 +73,7 @@ const saveHouse = async (houseData, imageFile) => {
 <style scoped>
 .container {
   width: 100%;
-  padding: 30px 0;
+  padding: 30px;
   background-image: url("/img_background@3x.png");
   background-size: 66.66% 100%;
   background-position: right center;
@@ -89,4 +86,3 @@ const saveHouse = async (houseData, imageFile) => {
   display: block;
 }
 </style>
-```
