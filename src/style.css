@@ -100,11 +100,31 @@ button:focus-visible {
   box-sizing: border-box; /* ensure padding is included in width */
 }
 
+.title {
+  font-size: 34px;
+}
+
+.header-inactive {
+  font-family: var(--font-primary);
+  font-weight: var(--fw-medium);
+  font-size: var(--menu-inactive-desktop);
+  text-decoration: none;
+  color: var(--color-text-tertiary); /* inactive = tertiary */
+  padding: 6px 8px;
+}
+
+/* Must come AFTER inactive so it overrides */
+.header-active {
+  font-weight: var(--fw-bold);
+  font-size: var(--menu-desktop);
+  color: var(--color-text-primary); /* active = primary */
+}
+
 /* ---------------- MEDIA QUERIES ---------------- */
 @media (prefers-color-scheme: light) {
   :root {
     color: var(--color-text-primary);
-    background-color: var(--bg-2);
+    background-color: var(--bg-1);
   }
 
   a:hover {
@@ -117,10 +137,6 @@ button:focus-visible {
 }
 
 /* ---------------- Title---------------- */
-
-.title {
-  font-size: 34px;
-}
 
 @media (max-width: 768px) {
   h1 {
@@ -144,12 +160,5 @@ button:focus-visible {
 
     font-family: var(--font-primary);
     font-weight: bold;
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: var(--color-text-primary);
-    background-color: var(--bg-1);
   }
 }

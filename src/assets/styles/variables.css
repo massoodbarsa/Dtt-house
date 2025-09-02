@@ -47,7 +47,10 @@
   --h1-mobile: 18px;
   --h2-desktop: 22px;
   --h2-mobile: 14px;
-  --menu-desktop: 18px;
+
+  --menu-desktop-active-header: 18px;
+  --menu-inactive-desktop: 18px;
+
   --button-desktop: 18px;
   --button-mobile: 12px;
 
@@ -57,7 +60,7 @@
   --input-title-mobile: 12px;
 
   /* Montserrat Medium */
-  --menu-inactive-desktop: 18px;
+
   --empty-state-desktop: 18px;
   --empty-state-mobile: 14px;
 

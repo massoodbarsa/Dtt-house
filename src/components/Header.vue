@@ -4,20 +4,20 @@
       <RouterLink to="/" class="nav__logo">
         <img src="/img_logo_dtt@3x.png" alt="Logo" width="120px" />
       </RouterLink>
-
       <RouterLink
         to="/"
-        class="nav__link"
-        active-class="is-active"
-        exact-active-class="is-active"
+        class="header-inactive"
+        active-class="header-active"
+        exact-active-class="header-active"
       >
         Houses
       </RouterLink>
+
       <RouterLink
         to="/about"
-        class="nav__link"
-        active-class="is-active"
-        exact-active-class="is-active"
+        class="header-inactive"
+        active-class="header-active"
+        exact-active-class="header-active"
       >
         About
       </RouterLink>
@@ -48,21 +48,5 @@
   align-items: center;
   justify-content: flex-start;
   gap: 40px;
-}
-
-.nav__link {
-  text-decoration: none;
-  color: var(--color-tertiary);
-  padding: 6px 8px;
-  /* transition: color 0.2s, border-color 0.2s; */
-}
-
-.nav__link:hover {
-  color: #0077cc;
-}
-
-.nav__link.is-active {
-  font-weight: 600;
-  color: var(--color-text-primary);
 }
 </style>
