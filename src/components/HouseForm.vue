@@ -12,6 +12,8 @@ const fileInput = ref(null);
 const newImageFile = ref(null);
 const errors = reactive({});
 
+const localHouse = reactive(toRaw(props.house));
+
 // Validate individual field
 const validateField = (field) => {
   const currentYear = new Date().getFullYear();
@@ -28,8 +30,8 @@ const validateField = (field) => {
     errors.zip = !props.house.location.zip
       ? "Postal code is required"
       : !zipRegex.test(props.house.location.zip)
-      ? "Postal code must be 4 digits, a space, and 2 capital letters (e.g., 1234 AB)"
-      : "";
+        ? "Postal code must be 4 digits, a space, and 2 capital letters (e.g., 1234 AB)"
+        : "";
   } else if (field === "city") {
     errors.city = !props.house.location.city ? "City is required" : "";
   } else if (field === "image") {
@@ -171,7 +173,7 @@ const handleImageUpload = async (e) => {
   if (!e.target.files || !e.target.files[0]) return;
   const file = e.target.files[0];
   newImageFile.value = file;
-  props.house.image = URL.createObjectURL(file);
+  localHouse.image = URL.createObjectURL(file);
   validateField("image"); // Validate image field
   emit("upload-image", file);
 };
@@ -181,7 +183,7 @@ const triggerFileInput = () => {
 };
 
 const removeImage = () => {
-  props.house.image = "";
+  localHouse.image = "";
   newImageFile.value = null;
   validateField("image"); // Validate image field
   emit("remove-image");
@@ -189,7 +191,7 @@ const removeImage = () => {
 
 const saveHouse = () => {
   if (validateForm()) {
-    emit("save", toRaw(props.house), newImageFile.value);
+    emit("save", toRaw(localHouse), newImageFile.value);
   }
 };
 </script>
@@ -201,7 +203,10 @@ const saveHouse = () => {
     </h1>
     <div class="form-group">
       <label class="input-field-title">Street name</label>
-      <input placeholder="Enter street name" v-model="house.location.street" />
+      <input
+        placeholder="Enter street name"
+        v-model="localHouse.location.street"
+      />
       <span class="error-message" v-if="errors.street">{{
         errors.street
       }}</span>
@@ -211,7 +216,7 @@ const saveHouse = () => {
         <label>House Number*</label>
         <input
           placeholder="Enter house number"
-          v-model="house.location.houseNumber"
+          v-model="localHouse.location.houseNumber"
         />
         <span class="error-message" v-if="errors.houseNumber">{{
           errors.houseNumber
@@ -221,24 +226,24 @@ const saveHouse = () => {
         <label>Addition (optional)</label>
         <input
           placeholder="eg. A"
-          v-model="house.location.houseNumberAddition"
+          v-model="localHouse.location.houseNumberAddition"
         />
       </div>
     </section>
     <div class="form-group">
       <label>Postal code*</label>
-      <input placeholder="eg. 1000 AA" v-model="house.location.zip" />
+      <input placeholder="eg. 1000 AA" v-model="localHouse.location.zip" />
       <span class="error-message" v-if="errors.zip">{{ errors.zip }}</span>
     </div>
     <div class="form-group">
       <label>City*</label>
-      <input placeholder="eg. Utrecht" v-model="house.location.city" />
+      <input placeholder="eg. Utrecht" v-model="localHouse.location.city" />
       <span class="error-message" v-if="errors.city">{{ errors.city }}</span>
     </div>
     <!-- Image upload -->
     <div class="form-group">
       <p>Upload picture (PNG or JPG)*</p>
-      <span style="position: relative" v-if="house.image">
+      <span style="position: relative" v-if="localHouse.image">
         <img :src="house.image" alt="House preview" class="house-image" />
         <img
           src="/ic_clear_white@3x.png"
@@ -267,18 +272,22 @@ const saveHouse = () => {
     </div>
     <div class="form-group">
       <label>Price* </label>
-      <input placeholder="eg. €15000" type="number" v-model="house.price" />
+      <input
+        placeholder="eg. €15000"
+        type="number"
+        v-model="localHouse.price"
+      />
       <span class="error-message" v-if="errors.price">{{ errors.price }}</span>
     </div>
     <section class="input-double">
       <div class="form-group">
         <label>Size*</label>
-        <input placeholder="eg. 60m2" type="number" v-model="house.size" />
+        <input placeholder="eg. 60m2" type="number" v-model="localHouse.size" />
         <span class="error-message" v-if="errors.size">{{ errors.size }}</span>
       </div>
       <div class="form-group">
         <label>Garage*</label>
-        <select v-model="house.hasGarage">
+        <select v-model="localHouse.hasGarage">
           <option disabled value="">Select</option>
           <option :value="true">Yes</option>
           <option :value="false">No</option>
@@ -294,7 +303,7 @@ const saveHouse = () => {
         <input
           placeholder="Enter amount"
           type="number"
-          v-model="house.rooms.bedrooms"
+          v-model="localHouse.rooms.bedrooms"
         />
         <span class="error-message" v-if="errors.bedrooms">{{
           errors.bedrooms
@@ -305,7 +314,7 @@ const saveHouse = () => {
         <input
           placeholder="Enter amount"
           type="number"
-          v-model="house.rooms.bathrooms"
+          v-model="localHouse.rooms.bathrooms"
         />
         <span class="error-message" v-if="errors.bathrooms">{{
           errors.bathrooms
@@ -317,7 +326,7 @@ const saveHouse = () => {
       <input
         placeholder="eg. 1990"
         type="number"
-        v-model="house.constructionYear"
+        v-model="localHouse.constructionYear"
       />
       <span class="error-message" v-if="errors.constructionYear">{{
         errors.constructionYear
@@ -326,7 +335,7 @@ const saveHouse = () => {
     <div class="form-group">
       <label>Description*</label>
       <textarea
-        v-model="house.description"
+        v-model="localHouse.description"
         placeholder="Enter description"
       ></textarea>
       <span class="error-message" v-if="errors.description">{{
