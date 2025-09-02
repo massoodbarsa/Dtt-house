@@ -200,7 +200,7 @@ const saveHouse = () => {
       {{ isEditMode ? "Edit listing" : "Create listing" }}
     </h1>
     <div class="form-group">
-      <label>Street name</label>
+      <label class="input-field-title">Street name</label>
       <input placeholder="Enter street name" v-model="house.location.street" />
       <span class="error" v-if="errors.street">{{ errors.street }}</span>
     </div>

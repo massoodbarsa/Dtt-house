@@ -82,6 +82,11 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+label {
+  font-weight: var(--fw-semibold);
+  font-size: var(--input-title-desktop);
+}
+
 /* ---------------- CARD ---------------- */
 .card {
   padding: 2em;
@@ -156,6 +161,10 @@ button:focus-visible {
 
   p {
     font-size: 14px;
+  }
+
+  label {
+    font-size: var(--input-title-mobile);
   }
 
   .title {
