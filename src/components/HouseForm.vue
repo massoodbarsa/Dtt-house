@@ -432,14 +432,13 @@ textarea {
 @media (max-width: 768px) {
   .edit-house {
     max-width: 100%;
-    padding: 0 60px;
+    padding: 20px 40px 30px 25px;
     gap: 10px;
   }
 
   .title {
     position: absolute;
     top: -70px;
-    /* margin-bottom: 10px; */
   }
 
   .input-double {
