@@ -50,7 +50,7 @@ const saveHouse = async (houseData, imageFile) => {
 <style scoped>
 .container {
   width: 100%;
-  padding: 30px;
+  /* padding: 30px; */
   background-image: url("/img_background@3x.png");
   background-size: 66.66% 100%;
   background-position: right center;

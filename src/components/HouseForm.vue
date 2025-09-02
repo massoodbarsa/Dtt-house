@@ -356,6 +356,7 @@ const saveHouse = () => {
   align-items: flex-start;
   gap: 15px;
   padding: 0 20px;
+  position: relative;
 }
 
 .house-image {
@@ -431,14 +432,14 @@ textarea {
 @media (max-width: 768px) {
   .edit-house {
     max-width: 100%;
-    padding: 0 15px;
+    padding: 0 60px;
     gap: 10px;
   }
 
   .title {
     position: absolute;
-    top: 45px;
-    margin-bottom: 10px;
+    top: -70px;
+    /* margin-bottom: 10px; */
   }
 
   .input-double {
