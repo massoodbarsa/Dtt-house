@@ -36,6 +36,9 @@ body {
   min-height: 100vh;
   background-color: var(--bg-1);
   color: var(--color-text-primary);
+  font-family: var(--font-secondary);
+  font-weight: var(--fw-regular);
+  font-size: var(--body-desktop);
 }
 
 /* ---------------- HEADINGS ---------------- */
@@ -140,6 +143,12 @@ label {
   color: var(--color-primary);
 }
 
+.listing-info {
+  font-family: var(--font-secondary);
+  font-weight: var(--fw-semibold);
+  font-size: var(--listing-desktop);
+}
+
 /* ---------------- MEDIA QUERIES ---------------- */
 @media (prefers-color-scheme: light) {
   :root {
@@ -159,6 +168,9 @@ label {
 /* ---------------- Title---------------- */
 
 @media (max-width: 768px) {
+  body {
+    font-size: var(--body-mobile);
+  }
   h1 {
     font-size: var(--h1-mobile);
   }
@@ -196,5 +208,9 @@ label {
 
   .error-message {
     font-size: var(--error-mobile);
+  }
+  .listing-info {
+    font-weight: var(--fw-semibold);
+    font-size: var(--listing-mobile);
   }
 }

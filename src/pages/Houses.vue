@@ -203,7 +203,7 @@ const toggleFavoritesFilter = () => {
               {{ house.location.houseNumberAddition }}
             </h3>
             <p>€ {{ house.price }}</p>
-            <p style="color: var(--color-tertiary)">
+            <p class="listing-info" style="color: var(--color-tertiary)">
               {{ house.location.zip }} {{ house.location.city }}
             </p>
             <section class="house-options">
@@ -214,7 +214,7 @@ const toggleFavoritesFilter = () => {
                   width="20"
                   height="20"
                 />
-                <p>{{ house.rooms.bedrooms }}</p>
+                <p class="listing-info">{{ house.rooms.bedrooms }}</p>
               </span>
               <span class="house-options">
                 <img
@@ -223,11 +223,11 @@ const toggleFavoritesFilter = () => {
                   width="20"
                   height="20"
                 />
-                <p>{{ house.rooms.bathrooms }}</p>
+                <p class="listing-info">{{ house.rooms.bathrooms }}</p>
               </span>
               <span class="house-options">
                 <img src="/ic_size@3x.png" alt="size" width="20" height="20" />
-                <p>{{ house.size }}</p>
+                <p class="listing-info">{{ house.size }}</p>
               </span>
             </section>
           </section>

@@ -134,16 +134,18 @@ const cancelDelete = () => {
                   alt="Location"
                   class="option-icon"
                 />
-                <p>{{ house.location.zip }}</p>
+                <p class="listing-info">{{ house.location.zip }}</p>
               </span>
               <section class="house-options tablet-invisible">
                 <span class="house-options">
                   <img src="/ic_price@3x.png" alt="Price" class="option-icon" />
-                  <p>€ {{ house.price.toLocaleString() }}</p>
+                  <p class="listing-info">
+                    € {{ house.price.toLocaleString() }}
+                  </p>
                 </span>
                 <span class="house-options">
                   <img src="/ic_size@3x.png" alt="Size" class="option-icon" />
-                  <p>{{ house.size }} m²</p>
+                  <p class="listing-info">{{ house.size }} m²</p>
                 </span>
                 <span class="house-options">
                   <img
@@ -151,7 +153,9 @@ const cancelDelete = () => {
                     alt="Construction Year"
                     class="option-icon"
                   />
-                  <p>Built in {{ house.constructionYear }}</p>
+                  <p class="listing-info">
+                    Built in {{ house.constructionYear }}
+                  </p>
                 </span>
               </section>
               <section class="house-options">
@@ -161,7 +165,7 @@ const cancelDelete = () => {
                     alt="Bedrooms"
                     class="option-icon"
                   />
-                  <p>{{ house.rooms.bedrooms }}</p>
+                  <p class="listing-info">{{ house.rooms.bedrooms }}</p>
                 </span>
                 <span class="house-options">
                   <img
@@ -169,7 +173,7 @@ const cancelDelete = () => {
                     alt="Bathrooms"
                     class="option-icon"
                   />
-                  <p>{{ house.rooms.bathrooms }}</p>
+                  <p class="listing-info">{{ house.rooms.bathrooms }}</p>
                 </span>
                 <span class="house-options">
                   <img
@@ -177,7 +181,9 @@ const cancelDelete = () => {
                     alt="Garage"
                     class="option-icon"
                   />
-                  <p>{{ house.hasGarage ? "Yes" : "No" }}</p>
+                  <p class="listing-info">
+                    {{ house.hasGarage ? "Yes" : "No" }}
+                  </p>
                 </span>
               </section>
               <p class="text">{{ house.description }}</p>
@@ -222,14 +228,14 @@ const cancelDelete = () => {
               {{ recHouse.location.street }} {{ recHouse.location.houseNumber }}
               {{ recHouse.location.houseNumberAddition }}
             </h4>
-            <p>€ {{ recHouse.price.toLocaleString() }}</p>
-            <p class="tertiary-text">
+            <p class="listing-info">€ {{ recHouse.price.toLocaleString() }}</p>
+            <p class="listing-info">
               {{ recHouse.location.zip }} {{ recHouse.location.city }}
             </p>
             <section class="house-options">
               <span class="house-options">
                 <img src="/ic_bed@3x.png" alt="Bedrooms" class="option-icon" />
-                <p>{{ recHouse.rooms.bedrooms }}</p>
+                <p class="listing-info">{{ recHouse.rooms.bedrooms }}</p>
               </span>
               <span class="house-options">
                 <img
@@ -237,11 +243,11 @@ const cancelDelete = () => {
                   alt="Bathrooms"
                   class="option-icon"
                 />
-                <p>{{ recHouse.rooms.bathrooms }}</p>
+                <p class="listing-info">{{ recHouse.rooms.bathrooms }}</p>
               </span>
               <span class="house-options">
                 <img src="/ic_size@3x.png" alt="Size" class="option-icon" />
-                <p>{{ recHouse.size }} m²</p>
+                <p class="listing-info">{{ recHouse.size }} m²</p>
               </span>
             </section>
           </section>
