@@ -398,6 +398,12 @@ const toggleFavoritesFilter = () => {
   border-radius: 0 5px 5px 0;
 }
 
+.favorites-btn {
+  text-align: center;
+  padding: 0 10px;
+  min-width: 100px;
+}
+
 .favorites-btn.active {
   background-color: rgb(255, 0, 136);
 }
