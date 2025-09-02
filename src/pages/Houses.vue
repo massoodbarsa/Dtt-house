@@ -178,8 +178,8 @@ const toggleFavoritesFilter = () => {
     <div v-else-if="filteredHouses.length === 0">
       <section class="empty-state">
         <img src="/img_empty_houses@3x.png" alt="empty search" width="200" />
-        <p>No results found</p>
-        <p>Please try another keyword.</p>
+        <p class="empty-state-message">No results found</p>
+        <p class="empty-state-message">Please try another keyword.</p>
       </section>
     </div>
     <div v-else>
@@ -467,7 +467,7 @@ const toggleFavoritesFilter = () => {
 }
 
 .empty-state img {
-  max-width: 100%;
+  width: 300px;
   height: auto;
 }
 

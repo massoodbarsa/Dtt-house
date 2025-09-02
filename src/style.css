@@ -130,6 +130,12 @@ label {
   font-size: var(--back-button-desktop);
 }
 
+.empty-state-message {
+  font-family: var(--font-primary);
+  font-weight: var(--fw-medium);
+  font-size: var(--empty-state-desktop);
+}
+
 /* ---------------- MEDIA QUERIES ---------------- */
 @media (prefers-color-scheme: light) {
   :root {
@@ -178,5 +184,9 @@ label {
 
   .back-button-label {
     display: none;
+  }
+
+  .empty-state-message {
+    font-size: var(--empty-state-mobile);
   }
 }
