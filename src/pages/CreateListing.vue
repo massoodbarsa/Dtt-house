@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { reactive } from "vue";
 import { useHousesStore } from "../stores/houses";
 import HouseForm from "../components/HouseForm.vue";
 import BackButton from "../components/BackButton.vue";
