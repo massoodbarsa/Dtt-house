@@ -85,7 +85,7 @@ const validateForm = () => {
   errors.image = !props.house.image ? "Image is required" : "";
   errors.price =
     !props.house.price || props.house.price <= 0
-      ? "Price must be a positive number"
+      ? "Must be a positive number"
       : "";
   errors.size =
     !props.house.size || props.house.size <= 0
@@ -93,21 +93,21 @@ const validateForm = () => {
       : "";
   errors.hasGarage =
     props.house.hasGarage === "" || props.house.hasGarage === null
-      ? "Garage selection is required"
+      ? "Is required"
       : "";
   errors.bedrooms =
     !props.house.rooms.bedrooms || props.house.rooms.bedrooms <= 0
-      ? "Number of bedrooms must be a positive number"
+      ? "Must be a positive number"
       : "";
   errors.bathrooms =
     !props.house.rooms.bathrooms || props.house.rooms.bathrooms <= 0
-      ? "Number of bathrooms must be a positive number"
+      ? "Must be a positive number"
       : "";
   errors.constructionYear =
     !props.house.constructionYear ||
     props.house.constructionYear < 1900 ||
     props.house.constructionYear > currentYear
-      ? `Construction year must be a 4-digit year between 1900 and ${currentYear}`
+      ? `Must be a 4-digit year between 1900 and ${currentYear}`
       : "";
   errors.description = !props.house.description
     ? "Description is required"
@@ -202,7 +202,9 @@ const saveHouse = () => {
     <div class="form-group">
       <label class="input-field-title">Street name</label>
       <input placeholder="Enter street name" v-model="house.location.street" />
-      <span class="error" v-if="errors.street">{{ errors.street }}</span>
+      <span class="error-message" v-if="errors.street">{{
+        errors.street
+      }}</span>
     </div>
     <section class="input-double">
       <div>
@@ -211,7 +213,7 @@ const saveHouse = () => {
           placeholder="Enter house number"
           v-model="house.location.houseNumber"
         />
-        <span class="error" v-if="errors.houseNumber">{{
+        <span class="error-message" v-if="errors.houseNumber">{{
           errors.houseNumber
         }}</span>
       </div>
@@ -226,12 +228,12 @@ const saveHouse = () => {
     <div class="form-group">
       <label>Postal code*</label>
       <input placeholder="eg. 1000 AA" v-model="house.location.zip" />
-      <span class="error" v-if="errors.zip">{{ errors.zip }}</span>
+      <span class="error-message" v-if="errors.zip">{{ errors.zip }}</span>
     </div>
     <div class="form-group">
       <label>City*</label>
       <input placeholder="eg. Utrecht" v-model="house.location.city" />
-      <span class="error" v-if="errors.city">{{ errors.city }}</span>
+      <span class="error-message" v-if="errors.city">{{ errors.city }}</span>
     </div>
     <!-- Image upload -->
     <div class="form-group">
@@ -261,18 +263,18 @@ const saveHouse = () => {
           @click="triggerFileInput"
         />
       </div>
-      <span class="error" v-if="errors.image">{{ errors.image }}</span>
+      <span class="error-message" v-if="errors.image">{{ errors.image }}</span>
     </div>
     <div class="form-group">
       <label>Price* </label>
       <input placeholder="eg. €15000" type="number" v-model="house.price" />
-      <span class="error" v-if="errors.price">{{ errors.price }}</span>
+      <span class="error-message" v-if="errors.price">{{ errors.price }}</span>
     </div>
     <section class="input-double">
       <div class="form-group">
         <label>Size*</label>
         <input placeholder="eg. 60m2" type="number" v-model="house.size" />
-        <span class="error" v-if="errors.size">{{ errors.size }}</span>
+        <span class="error-message" v-if="errors.size">{{ errors.size }}</span>
       </div>
       <div class="form-group">
         <label>Garage*</label>
@@ -281,7 +283,7 @@ const saveHouse = () => {
           <option :value="true">Yes</option>
           <option :value="false">No</option>
         </select>
-        <span class="error" v-if="errors.hasGarage">{{
+        <span class="error-message" v-if="errors.hasGarage">{{
           errors.hasGarage
         }}</span>
       </div>
@@ -294,7 +296,9 @@ const saveHouse = () => {
           type="number"
           v-model="house.rooms.bedrooms"
         />
-        <span class="error" v-if="errors.bedrooms">{{ errors.bedrooms }}</span>
+        <span class="error-message" v-if="errors.bedrooms">{{
+          errors.bedrooms
+        }}</span>
       </div>
       <div class="form-group">
         <label>Bathrooms*</label>
@@ -303,7 +307,7 @@ const saveHouse = () => {
           type="number"
           v-model="house.rooms.bathrooms"
         />
-        <span class="error" v-if="errors.bathrooms">{{
+        <span class="error-message" v-if="errors.bathrooms">{{
           errors.bathrooms
         }}</span>
       </div>
@@ -315,7 +319,7 @@ const saveHouse = () => {
         type="number"
         v-model="house.constructionYear"
       />
-      <span class="error" v-if="errors.constructionYear">{{
+      <span class="error-message" v-if="errors.constructionYear">{{
         errors.constructionYear
       }}</span>
     </div>
@@ -325,7 +329,7 @@ const saveHouse = () => {
         v-model="house.description"
         placeholder="Enter description"
       ></textarea>
-      <span class="error" v-if="errors.description">{{
+      <span class="error-message" v-if="errors.description">{{
         errors.description
       }}</span>
     </div>
@@ -415,14 +419,6 @@ textarea {
   padding: 20px;
 }
 
-.error {
-  color: red;
-  font-size: 12px;
-  margin-top: 5px;
-  min-height: 20px;
-  width: 100%;
-}
-
 @media (max-width: 768px) {
   .edit-house {
     max-width: 100%;
@@ -476,10 +472,6 @@ textarea {
 
   .upload-btn {
     padding: 15px;
-  }
-
-  .error {
-    font-size: 11px;
   }
 }
 </style>

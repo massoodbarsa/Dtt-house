@@ -110,7 +110,6 @@ label {
 }
 
 .header-inactive {
-  font-family: var(--font-primary);
   font-weight: var(--fw-medium);
   font-size: var(--menu-inactive-desktop);
   text-decoration: none;
@@ -131,9 +130,14 @@ label {
 }
 
 .empty-state-message {
-  font-family: var(--font-primary);
   font-weight: var(--fw-medium);
   font-size: var(--empty-state-desktop);
+}
+
+.error-message {
+  font-weight: var(--fw-medium);
+  font-size: var(--error-desktop);
+  color: var(--color-primary);
 }
 
 /* ---------------- MEDIA QUERIES ---------------- */
@@ -188,5 +192,9 @@ label {
 
   .empty-state-message {
     font-size: var(--empty-state-mobile);
+  }
+
+  .error-message {
+    font-size: var(--error-mobile);
   }
 }
