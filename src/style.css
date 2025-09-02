@@ -120,6 +120,11 @@ button:focus-visible {
   color: var(--color-text-primary); /* active = primary */
 }
 
+.back-button-label {
+  font-weight: var(--fw-semibold);
+  font-size: var(--back-button-desktop);
+}
+
 /* ---------------- MEDIA QUERIES ---------------- */
 @media (prefers-color-scheme: light) {
   :root {
@@ -160,5 +165,9 @@ button:focus-visible {
 
     font-family: var(--font-primary);
     font-weight: bold;
+  }
+
+  .back-button-label {
+    display: none;
   }
 }
