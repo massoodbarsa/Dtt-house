@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
 import { useRouter } from "vue-router";
-import Modal from "@/components/Modal.vue";
+import DeleteModal from "@/components/DeleteModal.vue";
 
 const store = useHousesStore();
 const searchQuery = ref("");
@@ -262,7 +262,7 @@ const toggleFavoritesFilter = () => {
       </div>
     </div>
 
-    <Modal
+    <DeleteModal
       :show="showModal"
       title="Delete House"
       message="Are you sure you want to delete this house?"

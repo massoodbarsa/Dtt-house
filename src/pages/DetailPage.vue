@@ -3,7 +3,7 @@ import { ref, reactive, onMounted, watch } from "vue";
 import { useHousesStore } from "../stores/houses";
 import { useRoute, useRouter } from "vue-router";
 import BackButton from "../components/BackButton.vue";
-import Modal from "@/components/Modal.vue";
+import DeleteModal from "@/components/DeleteModal.vue";
 
 const store = useHousesStore();
 const route = useRoute();
@@ -254,7 +254,7 @@ const cancelDelete = () => {
         </div>
       </aside>
     </div>
-    <Modal
+    <DeleteModal
       :show="showModal"
       title="Delete House"
       message="Are you sure you want to delete this house?"
