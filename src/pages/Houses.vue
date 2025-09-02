@@ -202,7 +202,7 @@ const toggleFavoritesFilter = () => {
               {{ house.location.street }} {{ house.location.houseNumber }}
               {{ house.location.houseNumberAddition }}
             </h3>
-            <p>€ {{ house.price }}</p>
+            <p class="listing-info">€ {{ house.price }}</p>
             <p class="listing-info" style="color: var(--color-tertiary)">
               {{ house.location.zip }} {{ house.location.city }}
             </p>

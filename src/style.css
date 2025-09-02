@@ -90,6 +90,13 @@ label {
   font-size: var(--input-title-desktop);
 }
 
+input,
+textarea {
+  font-family: var(--font-secondary);
+  font-weight: var(--fw-regular);
+  font-size: var(--input-desktop);
+}
+
 /* ---------------- CARD ---------------- */
 .card {
   padding: 2em;
@@ -187,6 +194,10 @@ label {
 
   label {
     font-size: var(--input-title-mobile);
+  }
+
+  input {
+    font-size: var(--input-mobile);
   }
 
   .title {
