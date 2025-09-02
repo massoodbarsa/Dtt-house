@@ -577,7 +577,9 @@ const toggleFavoritesFilter = () => {
 
   .house-list-container {
     align-items: flex-start;
-    padding: 10px;
+    justify-content: center;
+    padding: 10px 50px;
+    /* background-color: red; */
   }
 
   .house-list {
