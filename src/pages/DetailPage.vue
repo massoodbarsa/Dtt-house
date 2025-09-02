@@ -217,7 +217,7 @@ const cancelDelete = () => {
           <section>
             <router-link :to="`/detail-page/${recHouse.id}`">
               <img
-                :src="recHouse.image || '/placeholder.png'"
+                :src="recHouse.image || '/property-fallback.png'"
                 alt="Recommended house"
                 class="recommended-image"
               />
