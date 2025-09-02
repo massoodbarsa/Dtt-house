@@ -1,5 +1,9 @@
 <script setup>
-import { defineEmits } from "vue";
+import { defineProps, defineEmits } from "vue";
+
+const props = defineProps({
+  show: { type: Boolean, default: false },
+});
 
 const emit = defineEmits(["close", "confirm"]);
 
@@ -8,7 +12,7 @@ const confirmAction = () => emit("confirm");
 </script>
 
 <template>
-  <div v-if="show" class="modal-backdrop">
+  <div v-if="props.show" class="modal-backdrop">
     <div class="modal-container">
       <h1>Delete listing</h1>
       <p>Are you sure you want to delete this listing?</p>
