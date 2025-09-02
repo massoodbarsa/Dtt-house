@@ -24,7 +24,7 @@ a {
 }
 
 a:hover {
-  color: var(--color-primary); /* using primary as hover state */
+  color: var(--color-primary);
 }
 
 /* ---------------- BODY ---------------- */

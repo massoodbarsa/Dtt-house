@@ -9,13 +9,13 @@
   --color-secondary: #4a4b4c;
   --color-secondary-rgb: 74, 75, 76;
 
-  --color-tertiary: #c3c3c3; /* Using #C3C3C3 from style guide and provided variables.css */
+  --color-tertiary: #c3c3c3;
   --color-tertiary-rgb: 195, 195, 195;
 
   /* Text colors */
   --color-text-primary: #000000;
   --color-text-secondary: #4a4b4c;
-  --color-text-tertiary: #e8e8e8; /* Updated to match style guide's tertiary text color */
+  --color-text-tertiary: #e8e8e8;
 
   /* Backgrounds */
   --bg-1: #f6f6f6;
