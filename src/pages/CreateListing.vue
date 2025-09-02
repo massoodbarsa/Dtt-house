@@ -30,7 +30,6 @@ const house = reactive(getEmptyForm());
 const saveHouse = async (houseData, imageFile) => {
   try {
     const createdHouse = await store.saveHouse(houseData, imageFile, false); // isEdit = false for create
-    console.log("House created:", createdHouse);
     Object.assign(house, getEmptyForm());
     router.push(`/detail-page/${createdHouse.id}`);
   } catch (err) {

@@ -15,7 +15,7 @@ export const useHousesStore = defineStore("houses", {
       this.error = null;
       try {
         const data = await server("/houses");
-        console.log("Fetched from API:", data);
+
         this.items = Array.isArray(data) ? data : [];
       } catch (e) {
         this.error = e.message;
@@ -30,14 +30,12 @@ export const useHousesStore = defineStore("houses", {
       try {
         await server(`/houses/${id}`, { method: "DELETE" });
         this.items = this.items.filter((h) => h.id !== id); // update local state
-        console.log(`House ${id} deleted`);
       } catch (e) {
         console.error("Delete error:", e);
         this.error = e.message;
       }
 
       this.items = this.items.filter((h) => h.id !== id);
-      console.log(`House ${id} removed from store`);
     },
 
     async saveHouse(houseData, imageFile = null, isEdit = false) {
@@ -66,14 +64,8 @@ export const useHousesStore = defineStore("houses", {
       try {
         const endpoint = isEdit ? `/houses/${houseData.id}` : "/houses";
         const method = "POST";
-        console.log(
-          "saveHouse: Sending request to",
-          endpoint,
-          "with payload:",
-          payload
-        );
+
         const data = await server(endpoint, { method, body: payload });
-        console.log("saveHouse: API response:", data);
 
         // Handle null or invalid response
         const responseData =
@@ -99,10 +91,7 @@ export const useHousesStore = defineStore("houses", {
         if (imageFile) {
           const formData = new FormData();
           formData.append("image", imageFile);
-          console.log(
-            "saveHouse: Uploading image for house ID:",
-            responseData.id || houseData.id
-          );
+
           try {
             const uploadResponse = await fetch(
               `https://api.intern.d-tt.nl/api/houses/${

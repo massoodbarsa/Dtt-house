@@ -48,7 +48,7 @@ const saveHouse = async (houseData, imageFile) => {
 
     errorMessage.value = null;
     const redirectId = updatedHouse?.id || houseId; // Use houseId if response is null or missing id
-    console.log("Navigating to detail page:", `/detail-page/${redirectId}`);
+
     router.push(`/detail-page/${redirectId}`);
   } catch (err) {
     console.error("Failed to update house:", err);
