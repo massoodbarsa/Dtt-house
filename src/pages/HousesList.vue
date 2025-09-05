@@ -4,6 +4,8 @@ import { useHousesStore } from "../stores/houses";
 import { useRouter } from "vue-router";
 import DeleteModal from "@/components/DeleteModal.vue";
 
+import { useDeleteHouse } from "@/composables/useDeleteHouse";
+
 const store = useHousesStore();
 const searchQuery = ref("");
 const router = useRouter();
@@ -12,12 +14,11 @@ const router = useRouter();
 const sortCriterion = ref("price"); // price, size
 const sortOrder = ref("asc"); // asc or desc
 
-// Modal state
-const showModal = ref(false);
-const houseToDelete = ref(null);
-
 // Favorites filter state
 const showFavoritesOnly = ref(false);
+
+const { showModal, deleteHouse, cancelDelete, confirmDelete } =
+  useDeleteHouse();
 
 const clearSearch = () => {
   searchQuery.value = "";
@@ -50,24 +51,6 @@ onMounted(() => {
 
 const editHouse = (id) => {
   router.push(`/edit-listing/${id}`);
-};
-
-const deleteHouse = (house) => {
-  houseToDelete.value = house;
-  showModal.value = true;
-};
-
-const confirmDelete = async () => {
-  if (houseToDelete.value) {
-    await store.deleteHouse(houseToDelete.value.id);
-    houseToDelete.value = null;
-    showModal.value = false;
-  }
-};
-
-const cancelDelete = () => {
-  houseToDelete.value = null;
-  showModal.value = false;
 };
 
 const createListing = () => {

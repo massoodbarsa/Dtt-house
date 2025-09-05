@@ -30,12 +30,12 @@ export const useHousesStore = defineStore("houses", {
       try {
         await server(`/houses/${id}`, { method: "DELETE" });
         this.items = this.items.filter((h) => h.id !== id); // update local state
+        return { success: true };
       } catch (e) {
         console.error("Delete error:", e);
         this.error = e.message;
+        return { success: false, error: e.message };
       }
-
-      this.items = this.items.filter((h) => h.id !== id);
     },
 
     async saveHouse(houseData, imageFile = null, isEdit = false) {
@@ -105,7 +105,6 @@ export const useHousesStore = defineStore("houses", {
                 body: formData,
               }
             );
-            console.log("saveHouse: Image upload response:", uploadResponse);
             if (!uploadResponse.ok) {
               console.error(
                 `saveHouse: Image upload failed with status: ${uploadResponse.status}`

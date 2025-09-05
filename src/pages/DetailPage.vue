@@ -5,13 +5,15 @@ import { useRoute, useRouter } from "vue-router";
 import BackButton from "../components/BackButton.vue";
 import DeleteModal from "@/components/DeleteModal.vue";
 
+import { useDeleteHouse } from "@/composables/useDeleteHouse";
+
 const store = useHousesStore();
 const route = useRoute();
 const router = useRouter();
 const houseId = Number(route.params.id);
 
-const showModal = ref(false);
-const houseToDelete = ref(null);
+const { showModal, deleteHouse, cancelDelete, confirmDelete } =
+  useDeleteHouse();
 
 const house = reactive({
   id: null,
@@ -61,25 +63,6 @@ onMounted(() => {
 
 const editHouse = (id) => {
   router.push(`/edit-listing/${id}`);
-};
-
-const deleteHouse = (house) => {
-  houseToDelete.value = house;
-  showModal.value = true;
-};
-
-const confirmDelete = async () => {
-  if (houseToDelete.value) {
-    await store.deleteHouse(houseToDelete.value.id);
-    houseToDelete.value = null;
-    showModal.value = false;
-    router.push("/");
-  }
-};
-
-const cancelDelete = () => {
-  houseToDelete.value = null;
-  showModal.value = false;
 };
 </script>
 
