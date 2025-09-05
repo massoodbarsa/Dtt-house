@@ -4,6 +4,7 @@ import { useHousesStore } from "../stores/houses";
 import HouseForm from "../components/HouseForm.vue";
 import BackButton from "../components/BackButton.vue";
 import { useRouter } from "vue-router";
+import { toast } from "vue3-toastify";
 
 const store = useHousesStore();
 const router = useRouter();
@@ -30,8 +31,12 @@ const house = reactive(getEmptyForm());
 const saveHouse = async (houseData, imageFile) => {
   try {
     const createdHouse = await store.saveHouse(houseData, imageFile, false); // isEdit = false for create
-    Object.assign(house, getEmptyForm());
-    router.push(`/detail-page/${createdHouse.id}`);
+
+    toast.success("Listing is successfully created");
+
+    setTimeout(() => {
+      router.push(`/detail-page/${createdHouse.id}`);
+    }, 3000);
   } catch (err) {
     console.error("Failed to create house:", err);
   }

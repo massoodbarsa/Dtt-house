@@ -28,7 +28,9 @@ export function useDeleteHouse() {
           toast.success("House deleted successfully!");
           houseToDelete.value = null;
           showModal.value = false;
-          router.push("/");
+          setTimeout(() => {
+            router.push("/");
+          }, 3000);
         } else {
           toast.error("You are not allowed to delete this item.");
         }

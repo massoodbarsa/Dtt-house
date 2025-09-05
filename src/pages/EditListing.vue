@@ -4,6 +4,7 @@ import { useHousesStore } from "../stores/houses";
 import { useRoute, useRouter } from "vue-router";
 import HouseForm from "../components/HouseForm.vue";
 import BackButton from "../components/BackButton.vue";
+import { toast } from "vue3-toastify";
 
 const store = useHousesStore();
 const route = useRoute();
@@ -48,8 +49,10 @@ const saveHouse = async (houseData, imageFile) => {
 
     errorMessage.value = null;
     const redirectId = updatedHouse?.id || houseId; // Use houseId if response is null or missing id
-
-    router.push(`/detail-page/${redirectId}`);
+    toast.success("Listing is successfully edited");
+    setTimeout(() => {
+      router.push(`/detail-page/${redirectId}`);
+    }, 3000);
   } catch (err) {
     console.error("Failed to update house:", err);
     errorMessage.value = "Failed to update house.";
