@@ -55,7 +55,7 @@ const saveHouse = async (houseData, imageFile) => {
     }, 3000);
   } catch (err) {
     console.error("Failed to update house:", err);
-    errorMessage.value = "Failed to update house.";
+    toast.error("Listing is not editable");
   }
 };
 </script>
