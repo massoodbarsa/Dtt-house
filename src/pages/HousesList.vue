@@ -8,15 +8,8 @@ import { useDeleteHouse } from "@/composables/useDeleteHouse";
 import { useHouseFilters } from "../composables/useHouseFilters";
 
 const store = useHousesStore();
-// const searchQuery = ref("");
+
 const router = useRouter();
-
-// Sorting state
-// const sortCriterion = ref("price"); // price, size
-// const sortOrder = ref("asc"); // asc or desc
-
-// Favorites filter state
-// const showFavoritesOnly = ref(false);
 
 const { showModal, deleteHouse, cancelDelete, confirmDelete } =
   useDeleteHouse();
@@ -31,31 +24,6 @@ const {
   filteredHouses,
 } = useHouseFilters();
 
-// const clearSearch = () => {
-//   searchQuery.value = "";
-// };
-
-// Compute filtered and sorted houses
-// const filteredHouses = computed(() => {
-//   let houses = showFavoritesOnly.value
-//     ? store.favorites
-//     : store.items.filter((house) =>
-//         house.location.city
-//           .toLowerCase()
-//           .includes(searchQuery.value.toLowerCase())
-//       );
-
-//   if (sortCriterion.value) {
-//     houses = [...houses].sort((a, b) => {
-//       const valueA = sortCriterion.value === "price" ? a.price : a.size;
-//       const valueB = sortCriterion.value === "price" ? b.price : b.size;
-//       return sortOrder.value === "asc" ? valueA - valueB : valueB - valueA;
-//     });
-//   }
-
-//   return houses;
-// });
-
 onMounted(() => {
   store.fetchAll();
 });
@@ -67,18 +35,6 @@ const editHouse = (id) => {
 const createListing = () => {
   router.push(`/create-listing`);
 };
-
-// Handle sorting
-// const sortHouses = (criterion) => {
-//   if (sortCriterion.value === criterion) {
-//     // Toggle sort order if same criterion is clicked
-//     sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
-//   } else {
-//     // Set new criterion and default to ascending
-//     sortCriterion.value = criterion;
-//     sortOrder.value = "asc";
-//   }
-// };
 
 // Toggle favorite status
 const toggleFavorite = (house) => {
