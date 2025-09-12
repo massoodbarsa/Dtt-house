@@ -1,49 +1,60 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { onMounted } from "vue";
 import { useHousesStore } from "../stores/houses";
 import { useRouter } from "vue-router";
 import DeleteModal from "@/components/DeleteModal.vue";
 
 import { useDeleteHouse } from "@/composables/useDeleteHouse";
+import { useHouseFilters } from "../composables/useHouseFilters";
 
 const store = useHousesStore();
-const searchQuery = ref("");
+// const searchQuery = ref("");
 const router = useRouter();
 
 // Sorting state
-const sortCriterion = ref("price"); // price, size
-const sortOrder = ref("asc"); // asc or desc
+// const sortCriterion = ref("price"); // price, size
+// const sortOrder = ref("asc"); // asc or desc
 
 // Favorites filter state
-const showFavoritesOnly = ref(false);
+// const showFavoritesOnly = ref(false);
 
 const { showModal, deleteHouse, cancelDelete, confirmDelete } =
   useDeleteHouse();
 
-const clearSearch = () => {
-  searchQuery.value = "";
-};
+const {
+  searchQuery,
+  sortCriterion,
+  sortOrder,
+  showFavoritesOnly,
+  clearSearch,
+  sortHouses,
+  filteredHouses,
+} = useHouseFilters();
+
+// const clearSearch = () => {
+//   searchQuery.value = "";
+// };
 
 // Compute filtered and sorted houses
-const filteredHouses = computed(() => {
-  let houses = showFavoritesOnly.value
-    ? store.favorites
-    : store.items.filter((house) =>
-        house.location.city
-          .toLowerCase()
-          .includes(searchQuery.value.toLowerCase())
-      );
+// const filteredHouses = computed(() => {
+//   let houses = showFavoritesOnly.value
+//     ? store.favorites
+//     : store.items.filter((house) =>
+//         house.location.city
+//           .toLowerCase()
+//           .includes(searchQuery.value.toLowerCase())
+//       );
 
-  if (sortCriterion.value) {
-    houses = [...houses].sort((a, b) => {
-      const valueA = sortCriterion.value === "price" ? a.price : a.size;
-      const valueB = sortCriterion.value === "price" ? b.price : b.size;
-      return sortOrder.value === "asc" ? valueA - valueB : valueB - valueA;
-    });
-  }
+//   if (sortCriterion.value) {
+//     houses = [...houses].sort((a, b) => {
+//       const valueA = sortCriterion.value === "price" ? a.price : a.size;
+//       const valueB = sortCriterion.value === "price" ? b.price : b.size;
+//       return sortOrder.value === "asc" ? valueA - valueB : valueB - valueA;
+//     });
+//   }
 
-  return houses;
-});
+//   return houses;
+// });
 
 onMounted(() => {
   store.fetchAll();
@@ -58,16 +69,16 @@ const createListing = () => {
 };
 
 // Handle sorting
-const sortHouses = (criterion) => {
-  if (sortCriterion.value === criterion) {
-    // Toggle sort order if same criterion is clicked
-    sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
-  } else {
-    // Set new criterion and default to ascending
-    sortCriterion.value = criterion;
-    sortOrder.value = "asc";
-  }
-};
+// const sortHouses = (criterion) => {
+//   if (sortCriterion.value === criterion) {
+//     // Toggle sort order if same criterion is clicked
+//     sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
+//   } else {
+//     // Set new criterion and default to ascending
+//     sortCriterion.value = criterion;
+//     sortOrder.value = "asc";
+//   }
+// };
 
 // Toggle favorite status
 const toggleFavorite = (house) => {
@@ -171,13 +182,16 @@ const toggleFavoritesFilter = () => {
         :key="house.id"
         class="house-list-container"
       >
-        <div class="house-list">
+        <div
+          class="house-list"
+          @click="router.push(`/detail-page/${house.id}`)"
+          style="cursor: pointer"
+        >
           <section class="house-image">
             <img
               :src="house.image || '/property-fallback.png'"
               alt="house"
               style="border-radius: 5px; cursor: pointer"
-              @click="router.push(`/detail-page/${house.id}`)"
             />
           </section>
           <section class="house-item">
