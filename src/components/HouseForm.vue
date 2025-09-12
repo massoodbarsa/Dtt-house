@@ -6,7 +6,7 @@ const props = defineProps({
   isEditMode: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["save", "upload-image", "remove-image"]);
+const emit = defineEmits(["save", "remove-image"]);
 
 const fileInput = ref(null);
 const newImageFile = ref(null);
@@ -169,13 +169,12 @@ watch(
 );
 
 // Handle image selection
-const handleImageUpload = async (e) => {
+const handleImageSelect = async (e) => {
   if (!e.target.files || !e.target.files[0]) return;
   const file = e.target.files[0];
   newImageFile.value = file;
   localHouse.image = URL.createObjectURL(file);
   validateField("image"); // Validate image field
-  emit("upload-image", file);
 };
 
 const triggerFileInput = () => {
@@ -258,7 +257,7 @@ const saveHouse = () => {
           type="file"
           ref="fileInput"
           style="display: none"
-          @change="handleImageUpload"
+          @change="handleImageSelect"
         />
         <!-- Custom image as upload button -->
         <img

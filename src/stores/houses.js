@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { server } from "../services/server";
+import { uploadHouseImage } from "../services/uploadImage";
 
 export const useHousesStore = defineStore("houses", {
   state: () => ({
@@ -89,32 +90,12 @@ export const useHousesStore = defineStore("houses", {
         }
 
         if (imageFile) {
-          const formData = new FormData();
-          formData.append("image", imageFile);
-
           try {
-            const uploadResponse = await fetch(
-              `https://api.intern.d-tt.nl/api/houses/${
-                responseData.id || houseData.id
-              }/upload`,
-              {
-                method: "POST",
-                headers: {
-                  "X-Api-Key": import.meta.env.VITE_API_KEY,
-                },
-                body: formData,
-              }
-            );
-            if (!uploadResponse.ok) {
-              console.error(
-                `saveHouse: Image upload failed with status: ${uploadResponse.status}`
-              );
-            } else {
-              responseData.image = URL.createObjectURL(imageFile);
-            }
-          } catch (uploadErr) {
-            console.error("saveHouse: Image upload error:", uploadErr);
-            // Continue despite image upload failure
+            const result = await uploadHouseImage(responseData.id, imageFile);
+            responseData.image =
+              result.imageUrl || URL.createObjectURL(imageFile);
+          } catch (err) {
+            console.error("Image upload failed:", err);
           }
         }
 
