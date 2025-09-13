@@ -7,7 +7,7 @@ const { isActive: isHousesRoute } = useActiveRoute();
     <nav class="nav">
       <RouterLink
         :to="{ name: 'Houses' }"
-        :class="isHousesRoute ? 'header-active' : 'header-inactive'"
+        :class="isHousesRoute() ? 'header-active' : 'header-inactive'"
       >
         Houses
       </RouterLink>

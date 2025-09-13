@@ -1,6 +1,9 @@
 <script setup>
 import { RouterView } from "vue-router";
 import AppHeader from "@/components/AppHeader.vue";
+import { useActiveRoute } from "./composables/useActiveRoute";
+
+const { isActive: isHousesRoute } = useActiveRoute();
 </script>
 
 <template>
@@ -19,7 +22,7 @@ import AppHeader from "@/components/AppHeader.vue";
         >
           <img
             :src="
-              $route.path === '/'
+              isHousesRoute()
                 ? '/ic_mobile_navigarion_home_active@3x.png'
                 : '/ic_mobile_navigarion_home@3x.png'
             "
@@ -66,7 +69,6 @@ import AppHeader from "@/components/AppHeader.vue";
 
 .footer-link {
   padding: 8px;
-  opacity: 0.7;
   transition: opacity 0.3s ease;
 }
 
