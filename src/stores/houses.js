@@ -8,7 +8,7 @@ export const useHousesStore = defineStore("houses", {
     items: [],
     isLoading: false,
     error: null,
-    favorites: [],
+    favorites: JSON.parse(localStorage.getItem("favorites")) || [], //load from localStorage
   }),
 
   actions: {
@@ -100,11 +100,13 @@ export const useHousesStore = defineStore("houses", {
       // Add house to favorites if not already present
       if (!this.favorites.some((fav) => fav.id === house.id)) {
         this.favorites.push(house);
+        localStorage.setItem("favorites", JSON.stringify(this.favorites));
       }
     },
     removeFavorite(id) {
       // Remove house from favorites by ID
       this.favorites = this.favorites.filter((fav) => fav.id !== id);
+      localStorage.setItem("favorites", JSON.stringify(this.favorites));
     },
   },
 });

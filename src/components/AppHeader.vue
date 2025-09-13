@@ -1,14 +1,13 @@
+<script setup>
+import { useActiveRoute } from "../composables/useActiveRoute";
+const { isActive: isHousesRoute } = useActiveRoute();
+</script>
 <template>
   <header class="header">
     <nav class="nav">
-      <RouterLink to="/" class="nav__logo">
-        <img src="/img_logo_dtt@3x.png" alt="Logo" width="120px" />
-      </RouterLink>
       <RouterLink
-        to="/"
-        class="header-inactive"
-        active-class="header-active"
-        exact-active-class="header-active"
+        :to="{ name: 'Houses' }"
+        :class="isHousesRoute ? 'header-active' : 'header-inactive'"
       >
         Houses
       </RouterLink>
@@ -24,9 +23,6 @@
     </nav>
   </header>
 </template>
-<script setup>
-// no imports needed, RouterLink is globally available from vue-router
-</script>
 
 <style scoped>
 .header {
