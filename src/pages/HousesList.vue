@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { useHousesStore } from "../stores/houses";
 import { useRouter } from "vue-router";
 import DeleteModal from "@/components/DeleteModal.vue";
@@ -36,12 +36,14 @@ const createListing = () => {
   router.push(`/create-listing`);
 };
 
-// Toggle favorite status
+const favoritesSet = computed(() => new Set(store.favoriteIds));
+
+// Toggle favorite
 const toggleFavorite = (house) => {
-  if (store.favorites.some((fav) => fav.id === house.id)) {
+  if (store.favoriteIds.includes(house.id)) {
     store.removeFavorite(house.id);
   } else {
-    store.addFavorite(house);
+    store.addFavorite(house.id);
   }
 };
 
@@ -188,12 +190,11 @@ const toggleFavoritesFilter = () => {
         <section class="house-actions">
           <img
             :src="
-              store.favorites.some((fav) => fav.id === house.id)
+              favoritesSet.has(house.id)
                 ? '/heart_668687.png'
                 : '/heart_3916769.png'
             "
             alt="favorite"
-            width="24"
             @click.stop="toggleFavorite(house)"
             style="cursor: pointer"
           />

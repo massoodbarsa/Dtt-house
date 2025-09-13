@@ -9,8 +9,17 @@ export const useHousesStore = defineStore("houses", {
     items: [],
     isLoading: false,
     error: null,
-    favorites: JSON.parse(localStorage.getItem("favorites")) || [], //load from localStorage
+    favoriteIds: JSON.parse(localStorage.getItem("favorites")) || [], //load from localStorage
   }),
+
+  getters: {
+    favorites: (state) => {
+      // map IDs to actual items in the store
+      return state.favoriteIds
+        .map((id) => state.items.find((h) => h.id === id))
+        .filter(Boolean); // remove null/undefined if item deleted
+    },
+  },
 
   actions: {
     async fetchAll() {
@@ -20,6 +29,12 @@ export const useHousesStore = defineStore("houses", {
         const data = await server("/houses");
 
         this.items = Array.isArray(data) ? data : [];
+
+        // Clean up favorites: remove any house that no longer exists
+        this.favorites = (
+          JSON.parse(localStorage.getItem("favorites")) || []
+        ).filter((fav) => this.items.some((item) => item.id === fav.id));
+        localStorage.setItem("favorites", JSON.stringify(this.favorites));
       } catch (e) {
         this.error = e.message;
         console.error("Fetch error:", e);
@@ -125,17 +140,15 @@ export const useHousesStore = defineStore("houses", {
       }
     },
 
-    addFavorite(house) {
-      // Add house to favorites if not already present
-      if (!this.favorites.some((fav) => fav.id === house.id)) {
-        this.favorites.push(house);
-        localStorage.setItem("favorites", JSON.stringify(this.favorites));
+    addFavorite(id) {
+      if (!this.favoriteIds.includes(id)) {
+        this.favoriteIds.push(id);
+        localStorage.setItem("favorites", JSON.stringify(this.favoriteIds));
       }
     },
     removeFavorite(id) {
-      // Remove house from favorites by ID
-      this.favorites = this.favorites.filter((fav) => fav.id !== id);
-      localStorage.setItem("favorites", JSON.stringify(this.favorites));
+      this.favoriteIds = this.favoriteIds.filter((favId) => favId !== id);
+      localStorage.setItem("favorites", JSON.stringify(this.favoriteIds));
     },
   },
 });
