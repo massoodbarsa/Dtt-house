@@ -48,6 +48,7 @@ watch(
 
 const loadHouse = async (id) => {
   const data = await store.fetchHouse(id);
+
   if (data) {
     Object.assign(house, data);
 

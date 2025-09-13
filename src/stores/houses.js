@@ -89,10 +89,22 @@ export const useHousesStore = defineStore("houses", {
             ? data
             : { ...payload, id: houseData.id || null };
         if (!responseData.id) {
-          console.warn(
-            "saveHouse: Invalid API response, using fallback ID:",
-            houseData.id
-          );
+          console.warn("saveHouse: Invalid API response", houseData.id);
+        }
+
+        if (imageFile) {
+          try {
+            const result = await uploadHouseImage(responseData.id, imageFile);
+            if (result && result.imageUrl) {
+              // cache image updates immediately
+              responseData.image = `${result.imageUrl}?t=${Date.now()}`;
+            } else {
+              // fallback if result is null or missing imageUrl
+              responseData.image = URL.createObjectURL(imageFile);
+            }
+          } catch (err) {
+            console.error("Image upload failed:", err);
+          }
         }
 
         if (isEdit) {
@@ -102,16 +114,6 @@ export const useHousesStore = defineStore("houses", {
           }
         } else {
           this.items.push(responseData);
-        }
-
-        if (imageFile) {
-          try {
-            const result = await uploadHouseImage(responseData.id, imageFile);
-            responseData.image =
-              result.imageUrl || URL.createObjectURL(imageFile);
-          } catch (err) {
-            console.error("Image upload failed:", err);
-          }
         }
 
         return responseData;
