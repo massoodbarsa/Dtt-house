@@ -1,13 +1,6 @@
 // utils/uploadHouseImageUtil.js
 import { uploadHouseImage } from "../services/uploadImage";
 
-/**
- * Uploads a house image and returns a URL suitable for immediate display.
- * Uses cache-busting to update image instantly.
- * @param {number|string} houseId
- * @param {File} imageFile
- * @returns {Promise<string>} image URL
- */
 export async function handleHouseImageUpload(houseId, imageFile) {
   if (!imageFile) return null;
 

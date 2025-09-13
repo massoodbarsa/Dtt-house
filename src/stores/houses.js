@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { server } from "../services/server";
-import { uploadHouseImage } from "../services/uploadImage";
+
 import { transformHouseData } from "../utils/transformHouseData";
+import { handleHouseImageUpload } from "../utils/uploadHouseImageUtil";
 
 export const useHousesStore = defineStore("houses", {
   state: () => ({
@@ -93,18 +94,10 @@ export const useHousesStore = defineStore("houses", {
         }
 
         if (imageFile) {
-          try {
-            const result = await uploadHouseImage(responseData.id, imageFile);
-            if (result && result.imageUrl) {
-              // cache image updates immediately
-              responseData.image = `${result.imageUrl}?t=${Date.now()}`;
-            } else {
-              // fallback if result is null or missing imageUrl
-              responseData.image = URL.createObjectURL(imageFile);
-            }
-          } catch (err) {
-            console.error("Image upload failed:", err);
-          }
+          responseData.image = await handleHouseImageUpload(
+            responseData.id,
+            imageFile
+          );
         }
 
         if (isEdit) {
