@@ -27,6 +27,40 @@ export const useHousesStore = defineStore("houses", {
       }
     },
 
+    // Fetch a single house by ID
+    async fetchHouse(id) {
+      // Check if house already exists
+      const existing = this.items.find((h) => h.id === id);
+      if (existing) return existing;
+
+      this.isLoading = true;
+      this.error = null;
+
+      try {
+        const data = await server(`/houses/${id}`);
+
+        if (!data || !data.id) {
+          throw new Error("Invalid house data from API");
+        }
+
+        // Add or replace in store
+        const index = this.items.findIndex((h) => h.id === data.id);
+        if (index !== -1) {
+          this.items[index] = data;
+        } else {
+          this.items.push(data);
+        }
+
+        return data; // return the house
+      } catch (err) {
+        console.error("Fetch single house error:", err);
+        this.error = err.message;
+        return null;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
     // Delete
     async deleteHouse(id) {
       try {

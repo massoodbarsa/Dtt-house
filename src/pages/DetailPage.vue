@@ -46,19 +46,24 @@ watch(
   }
 );
 
-onMounted(() => {
-  const found = store.items.find((h) => h.id === houseId);
-  if (found) {
-    Object.assign(house, found);
-    // Filter recommended houses by matching city, excluding the current house
+const loadHouse = async (id) => {
+  const data = await store.fetchHouse(id);
+  if (data) {
+    Object.assign(house, data);
+
+    // Recommended houses based on same city
     recommendedHouses.value = store.items
       .filter(
         (h) =>
-          h.id !== houseId &&
-          h.location.city.toLowerCase() === found.location.city.toLowerCase()
+          h.id !== id &&
+          h.location.city.toLowerCase() === data.location.city.toLowerCase()
       )
       .slice(0, 3);
   }
+};
+
+onMounted(() => {
+  loadHouse(houseId);
 });
 
 const editHouse = (id) => {
