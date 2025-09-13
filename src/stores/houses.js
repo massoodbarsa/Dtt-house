@@ -27,14 +27,13 @@ export const useHousesStore = defineStore("houses", {
       this.error = null;
       try {
         const data = await server("/houses");
-
         this.items = Array.isArray(data) ? data : [];
 
-        // Clean up favorites: remove any house that no longer exists
-        this.favorites = (
-          JSON.parse(localStorage.getItem("favorites")) || []
-        ).filter((fav) => this.items.some((item) => item.id === fav.id));
-        localStorage.setItem("favorites", JSON.stringify(this.favorites));
+        // Clean up favoriteIds: remove any IDs that no longer exist in items
+        this.favoriteIds = this.favoriteIds.filter((id) =>
+          this.items.some((item) => item.id === id)
+        );
+        localStorage.setItem("favorites", JSON.stringify(this.favoriteIds));
       } catch (e) {
         this.error = e.message;
         console.error("Fetch error:", e);
