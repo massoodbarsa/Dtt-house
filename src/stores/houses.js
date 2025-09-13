@@ -75,7 +75,7 @@ export const useHousesStore = defineStore("houses", {
     },
 
     async saveHouse(houseData, imageFile = null, isEdit = false) {
-      const payload = transformHouseData();
+      let payload = transformHouseData(houseData);
 
       try {
         const endpoint = isEdit ? `/houses/${houseData.id}` : "/houses";
